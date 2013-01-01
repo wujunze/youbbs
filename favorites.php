@@ -89,7 +89,7 @@ if($user_fav && $user_fav['articles']){
         exit;
     }else{
         if($page>$taltol_page){
-            header('location: favorites?page='.$taltol_page);
+            header('location: /favorites?page='.$taltol_page);
             exit;
         }
     }

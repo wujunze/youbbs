@@ -29,7 +29,7 @@ echo '
 <p>
 <input type="text" name="title" value="',$p_title,'" class="sll" />
 </p>
-<p><textarea name="content" class="mll tall">',$p_content,'</textarea></p>
+<p><textarea id="id-content" name="content" class="mll tall">',$p_content,'</textarea></p>
 <p><label><input type="checkbox" name="closecomment" value="1" ',$t_obj['closecomment'],'/> 关闭评论</label>  •  <label><input type="checkbox" name="visible" value="1" ',$t_obj['visible'],'/> 显示帖子</label></p>';
 
 if(!$options['close_upload']){
