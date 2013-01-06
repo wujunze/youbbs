@@ -54,19 +54,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
         //
         if(!$errors){
-            $DBM = new DB_MySQL;
-            $DBM->connect($servername_m, $dbport, $dbusername, $dbpassword, $dbname);
-            
             if($options['register_review']){
                 $flag = 1;
             }else{
                 $flag = 5;
             }
-            $DBM->query("INSERT INTO `yunbbs_users` (`id`,`name`,`flag`,`password`,`regtime`) VALUES (null,'$name', $flag, '', $timestamp)");
-            $new_uid = $DBM->insert_id();
-            $MMC->delete('site_infos');
+            $DBS->query("INSERT INTO `yunbbs_users` (`id`,`name`,`flag`,`password`,`regtime`) VALUES (null,'$name', $flag, '', $timestamp)");
+            $new_uid = $DBS->insert_id();
+            
             // update qqweibo
-            $DBM->unbuffered_query("UPDATE `yunbbs_weibo` SET `uid` = '$new_uid' WHERE `openid`='$openid'");
+            $DBS->unbuffered_query("UPDATE `yunbbs_weibo` SET `uid` = '$new_uid' WHERE `openid`='$openid'");
             
             //设置cookie
             $db_ucode = md5($new_uid.''.$timestamp.'00');
@@ -95,15 +92,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             $pwmd5 = md5($pw);
                             if($pwmd5 == $db_user['password']){
                                 // update qqweibo
-                                $DBM = new DB_MySQL;
-                                $DBM->connect($servername_m, $dbport, $dbusername, $dbpassword, $dbname);
                                 $userid = $db_user['id'];
-                                $DBM->unbuffered_query("UPDATE `yunbbs_weibo` SET `uid` = '$userid' WHERE `openid`='$openid'");
+                                $DBS->unbuffered_query("UPDATE `yunbbs_weibo` SET `uid` = '$userid' WHERE `openid`='$openid'");
                                 
-                                //设置缓存和cookie
+                                //设置cookie
                                 $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
                                 $cur_uid = $db_user['id'];
-                                $MMC->set('u_'.$cur_uid, $check_user, 0, 600);
+                                
                                 setcookie("cur_uid", $cur_uid, time()+ 86400 * 365, '/');
                                 setcookie("cur_uname", $name, time()+86400 * 365, '/');
                                 setcookie("cur_ucode", $db_ucode, time()+86400 * 365, '/');

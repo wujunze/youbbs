@@ -53,9 +53,9 @@ if ($token) {
         $db_user = $DBS->fetch_one_array("SELECT * FROM `yunbbs_users` WHERE `id`='".$cur_uid."' LIMIT 1");
         if($db_user){
             $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
-            //设置缓存和cookie
+            //设置cookie
             $u_key = 'u_'.$cur_uid;
-            $MMC->set($u_key, $db_user, 0, 600);
+            
             $timestamp = time();
             setcookie('cur_uid', $cur_uid, $timestamp+ 86400 * 365, '/');
             setcookie('cur_uname', $db_user['name'], $timestamp+86400 * 365, '/');
@@ -98,11 +98,7 @@ if ($token) {
             exit;
         }
     }else{
-    
-        $DBM = new DB_MySQL;
-        $DBM->connect($servername_m, $dbport, $dbusername, $dbpassword, $dbname);
-        
-        $DBM->query("INSERT INTO `yunbbs_weibo` (`id`,`uid`,`name`,`openid`) VALUES (null,'0','$name', '$openid')");
+        $DBS->query("INSERT INTO `yunbbs_weibo` (`id`,`uid`,`name`,`openid`) VALUES (null,'0','$name', '$openid')");
         header("Location:/wbsetname");
         exit;
         
