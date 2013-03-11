@@ -175,36 +175,50 @@ function set_content($text,$spider='0'){
             $text = preg_replace($img_re, '<img src="\1" alt="" />', $text);
         }
     }
+    // 腾讯微博图片
+    if(strpos($text, 'qpic.cn')){
+        // http://t1.qpic.cn/mblogpic/4c7dfb4b2d3c665c4fa4/460
+        $qq_img_re = '/(http:\/\/t\d+\.qpic\.cn\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+)\/\d+\w*/';
+        if(!$spider){
+            $text = preg_replace($qq_img_re, '<img src="'.$options['base_url'].'/static/grey2.gif" data-original="\1/460" alt="" />', $text);
+        }else{
+            $text = preg_replace($qq_img_re, '<img src="\1/460" alt="" />', $text);
+        }
+    }
+    
     // 各大网站的视频地址格式经常变，能识别一些，不能识别了再改。
     // youku
 	if(strpos($text, 'player.youku.com')){
-	    $text = preg_replace('/http:\/\/player.youku.com\/player.php\/sid\/([a-zA-Z0-9\=]+)\/v.swf/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+	    $text = preg_replace('/http:\/\/player\.youku\.com\/player\.php\/sid\/([a-zA-Z0-9\=]+)\/v\.swf/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
 	}
 	
     if(strpos($text, 'v.youku.com')){
-        $text = preg_replace('/http:\/\/v.youku.com\/v_show\/id_([a-zA-Z0-9\=]+)(\/|.html?)?/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+        $text = preg_replace('/http:\/\/v\.youku\.com\/v_show\/id_([a-zA-Z0-9\=]+)(\/|\.html?)?/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
     }
     // tudou
     if(strpos($text, 'www.tudou.com')){
         if(strpos($text, 'programs/view')){
-            $text = preg_replace('/http:\/\/www.tudou.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|.html?)?/', '<embed src="http://www.tudou.com/v/\2/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/http:\/\/www\.tudou\.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/v/\2/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
         }else if(strpos($text, 'albumplay')){
-            $text = preg_replace('/http:\/\/www.tudou.com\/albumplay\/([a-zA-Z0-9\=\_\-]+)\/([a-zA-Z0-9\=\_\-]+)(\/|.html?)?/', '<embed src="http://www.tudou.com/a/\1/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/http:\/\/www\.tudou\.com\/albumplay\/([a-zA-Z0-9\=\_\-]+)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/a/\1/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+        }else if(strpos($text, "tudou.com/a/")){
+            //播放器地址
+            $text = preg_replace('/(http:\/\/www\.tudou\.com\/a\/([a-zA-Z0-9\=]+)\/\&amp;resourceId\=([0-9\_]+)\&amp;iid\=([0-9\_]+)\/v\.swf)/', '<embed src="\\1" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
         }else{
-            $text = preg_replace('/http:\/\/www.tudou.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|.html?)?/', '<embed src="http://www.tudou.com/l/\2/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/http:\/\/www\.tudou\.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/l/\2/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
         }
     }
     // qq
     if(strpos($text, 'v.qq.com')){
         if(strpos($text, 'vid=')){
-            $text = preg_replace('/http:\/\/v.qq.com\/(.+)vid=([a-zA-Z0-9]{8,})/', '<embed src="http://static.video.qq.com/TPout.swf?vid=\2&auto=0" allowFullScreen="true" quality="high" width="590" height="492" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/http:\/\/v\.qq\.com\/(.+)vid=([a-zA-Z0-9]{8,})/', '<embed src="http://static.video.qq.com/TPout.swf?vid=\2&auto=0" allowFullScreen="true" quality="high" width="590" height="492" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>', $text);
         }else{
-            $text = preg_replace('/http:\/\/v.qq.com\/(.+)\/([a-zA-Z0-9]{8,}).(html?)/', '<embed src="http://static.video.qq.com/TPout.swf?vid=\2&auto=0" allowFullScreen="true" quality="high" width="590" height="492" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/http:\/\/v\.qq\.com\/(.+)\/([a-zA-Z0-9]{8,})\.(html?)/', '<embed src="http://static.video.qq.com/TPout.swf?vid=\2&auto=0" allowFullScreen="true" quality="high" width="590" height="492" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>', $text);
         }
     }
     // gist
     if(strpos($text, '://gist')){
-        $text = preg_replace('/(https?:\/\/gist.github.com\/[\d]+)/', '<script src="\1.js"></script>', $text);
+        $text = preg_replace('/(https?:\/\/gist\.github\.com\/([a-zA-Z0-9-]+\/)?[\d]+)/', '<script src="\1.js"></script>', $text);
     }
     // mentions
     if(strpos(' '.$text, '@')){
