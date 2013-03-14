@@ -171,6 +171,18 @@ echo '
 
 $_output = ob_get_contents();
 ob_end_clean();
+
+// 304
+$etag = md5($_output);
+if($_SERVER['HTTP_IF_NONE_MATCH'] == $etag){
+    header("HTTP/1.1 304 Not Modified");
+    header("Status: 304 Not Modified");
+    header("Etag: ".$etag);
+    exit;    
+}else{
+    header("Etag: ".$etag);
+}
+
 echo $_output;
 
 ?>
