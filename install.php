@@ -25,7 +25,7 @@ if($DBS->geterrdesc()) {
 	} else {
 		$DBS->query("CREATE DATABASE $dbname");
 	}
-	
+
 	if($DBS->geterrdesc()) {
 		exit('指定的数据库不存在, 系统也无法自动建立, 无法安装.<br />');
 	} else {
@@ -34,7 +34,7 @@ if($DBS->geterrdesc()) {
 	}
 }
 
-$query - $DBS->query("SELECT COUNT(*) FROM yunbbs_settings", 'SILENT');
+$DBS->query("SELECT COUNT(*) FROM yunbbs_settings", 'SILENT');
 if(!$DBS->geterrdesc()) {
 	header('location: /');
 	exit('数据已经装好了， 不能重复安装， 若要重装，先删除mysql 里全部数据。 <a href="/">现在直接进入首页</a><br />');
