@@ -16,7 +16,7 @@ small { font-size: 11px; }
 img { border: none; }
 button, input, select, textarea {font-size: 100%;}
 html { overflow-y: scroll; height: 100%;}
-body {background-color:#FFF;-webkit-text-size-adjust: none;height: 100%;}
+body {background-color:#FFF;height: 100%;}
 p {line-height:180%;margin-bottom:20px;}
 
 a:link {color: #15C;text-decoration: none;}
