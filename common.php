@@ -22,14 +22,14 @@ $DBS->connect($servername, $dbport, $dbusername, $dbpassword, $dbname);
 
 // 去除转义字符
 function stripslashes_array(&$array) {
-	if (is_array($array)) {
-		foreach ($array as $k => $v) {
-			$array[$k] = stripslashes_array($v);
-		}
-	} else if (is_string($array)) {
-		$array = stripslashes($array);
-	}
-	return $array;
+    if (is_array($array)) {
+        foreach ($array as $k => $v) {
+            $array[$k] = stripslashes_array($v);
+        }
+    } else if (is_string($array)) {
+        $array = stripslashes($array);
+    }
+    return $array;
 }
 
 @set_magic_quotes_runtime(0);
@@ -49,19 +49,19 @@ $cur_ucode = $_COOKIE['cur_ucode'];
 if($cur_uname && $cur_uid && $cur_ucode){
     $u_key = 'u_'.$cur_uid;
 
-	// 从数据库里读取
-	$db_user = $DBS->fetch_one_array("SELECT * FROM yunbbs_users WHERE id='".$cur_uid."' LIMIT 1");
-	if($db_user){
-		$db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
-		if($cur_uname == $db_user['name'] && $cur_ucode == $db_ucode){
-			//设置cookie
-			setcookie('cur_uid', $cur_uid, $timestamp+ 86400 * 365, '/');
-			setcookie('cur_uname', $cur_uname, $timestamp+86400 * 365, '/');
-			setcookie('cur_ucode', $cur_ucode, $timestamp+86400 * 365, '/');
-			$cur_user = $db_user;
-			unset($db_user);
-		}
-	}
+    // 从数据库里读取
+    $db_user = $DBS->fetch_one_array("SELECT * FROM yunbbs_users WHERE id='".$cur_uid."' LIMIT 1");
+    if($db_user){
+        $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
+        if($cur_uname == $db_user['name'] && $cur_ucode == $db_ucode){
+            //设置cookie
+            setcookie('cur_uid', $cur_uid, $timestamp+ 86400 * 365, '/');
+            setcookie('cur_uname', $cur_uname, $timestamp+86400 * 365, '/');
+            setcookie('cur_ucode', $cur_ucode, $timestamp+86400 * 365, '/');
+            $cur_user = $db_user;
+            unset($db_user);
+        }
+    }
 
 }
 
@@ -69,8 +69,8 @@ include (dirname(__FILE__) . '/model.php');
 
 // 获得散列
 function formhash() {
-	global $cur_ucode, $options;
-	return substr(md5($options['site_create'].$cur_ucode.'yoursecretwords'), 8, 8);
+    global $cur_ucode, $options;
+    return substr(md5($options['site_create'].$cur_ucode.'yoursecretwords'), 8, 8);
 }
 
 $formhash = formhash();
@@ -114,7 +114,7 @@ $onlineip = addslashes($onlineip);
 $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
 if($user_agent){
     $is_spider = preg_match('/(bot|crawl|spider|slurp|sohu-search|lycos|robozilla|google)/i', $user_agent);
-    $is_mobie = preg_match('/(iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $user_agent);
+    $is_mobie = preg_match('/(Mobile|iPod|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP)/i', $user_agent);
 
     if($is_mobie){
         // 设置模板前缀
@@ -129,8 +129,8 @@ if($user_agent){
     }
 }else{
     //exit('error: 400 no agent');
-	$is_spider = '';
-	$is_mobie = '';
+    $is_spider = '';
+    $is_mobie = '';
 }
 
 //设置基本环境变量
@@ -185,13 +185,13 @@ function set_content($text,$spider='0'){
             $text = preg_replace($qq_img_re, '<img src="\1/460" alt="" />', $text);
         }
     }
-    
+
     // 各大网站的视频地址格式经常变，能识别一些，不能识别了再改。
     // youku
-	if(strpos($text, 'player.youku.com')){
-	    $text = preg_replace('/http:\/\/player\.youku\.com\/player\.php\/sid\/([a-zA-Z0-9\=]+)\/v\.swf/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
-	}
-	
+    if(strpos($text, 'player.youku.com')){
+        $text = preg_replace('/http:\/\/player\.youku\.com\/player\.php\/sid\/([a-zA-Z0-9\=]+)\/v\.swf/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+    }
+
     if(strpos($text, 'v.youku.com')){
         $text = preg_replace('/http:\/\/v\.youku\.com\/v_show\/id_([a-zA-Z0-9\=]+)(\/|\.html?)?/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
     }
@@ -228,15 +228,15 @@ function set_content($text,$spider='0'){
     if(strpos(' '.$text, 'http')){
         $text = ' ' . $text;
         $text = preg_replace(
-        	'`([^"=\'>])((http|https|ftp)://[^\s<]+[^\s<\.)])`i',
-        	'$1<a href="$2" target="_blank" rel="nofollow">$2</a>',
-        	$text
+            '`([^"=\'>])((http|https|ftp)://[^\s<]+[^\s<\.)])`i',
+            '$1<a href="$2" target="_blank" rel="nofollow">$2</a>',
+            $text
         );
         $text = substr($text, 1);
     }
-    
+
     $text = str_replace("\r\n", '<br/>', $text);
-    
+
     return $text;
 }
 
@@ -258,8 +258,8 @@ function find_mentions($text, $filter_name=''){
 
 //转换字符
 function char_cv($string) {
-	$string = htmlspecialchars(addslashes($string));
-	return $string;
+    $string = htmlspecialchars(addslashes($string));
+    return $string;
 }
 
 // 过滤掉一些非法字符
@@ -271,7 +271,21 @@ function filter_chr($string){
 
 //判断是否为邮件地址
 function isemail($email) {
-	return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
+    return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
+}
+
+function curl_file_get_contents($url){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_USERAGENT, _USERAGENT_);
+    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
 }
 
 ?>

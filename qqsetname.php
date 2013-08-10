@@ -27,7 +27,7 @@ $errors = array();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $action = $_POST['action'];
     $name = addslashes(strtolower(trim($_POST["name"])));
-    
+
     if($action == 'newuser'){
         // 新增
         if($name){
@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $errors[] = '用户名 太长了';
             }
         }else{
-            $errors[] = '用户名 必填'; 
+            $errors[] = '用户名 必填';
         }
         //
         if(!$errors){
@@ -61,10 +61,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
             $DBS->query("INSERT INTO yunbbs_users (id,name,flag,password,regtime) VALUES (null,'$name', $flag, '', $timestamp)");
             $new_uid = $DBS->insert_id();
-            
+
             // update qqweibo
             $DBS->unbuffered_query("UPDATE yunbbs_qqweibo SET uid = '$new_uid' WHERE openid='$openid'");
-            
+
             //设置cookie
             $db_ucode = md5($new_uid.''.$timestamp.'00');
             $cur_uid = $new_uid;
@@ -75,7 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $getavatar = "1";
             //header('location: /');
             //exit;
-            
+
         }
     }else if($action == 'bind'){
         // 绑定
@@ -94,11 +94,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                 // update qqweibo
                                 $userid = $db_user['id'];
                                 $DBS->unbuffered_query("UPDATE yunbbs_qqweibo SET uid = '$userid' WHERE openid='$openid'");
-                                
+
                                 //设置缓存和cookie
                                 $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
                                 $cur_uid = $db_user['id'];
-                                
+
                                 setcookie("cur_uid", $cur_uid, time()+ 86400 * 365, '/');
                                 setcookie("cur_uname", $name, time()+86400 * 365, '/');
                                 setcookie("cur_ucode", $db_ucode, time()+86400 * 365, '/');
@@ -125,9 +125,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }else{
                 $errors[] = '用户名 或 密码 太长了';
             }
-            
+
         }else{
-            $errors[] = '用户名、密码  必填'; 
+            $errors[] = '用户名、密码  必填';
         }
     }
 }
@@ -146,60 +146,61 @@ if(isset($gotohome)){
                       "Referer: ".$imgurl."\r\n"
           )
         );
-        
-        $context = stream_context_create($opts);
-        
-        $avatardata = file_get_contents($imgurl, false, $context);
-        
+
+        //$context = stream_context_create($opts);
+
+        //$avatardata = file_get_contents($imgurl, false, $context);
+        $avatardata = curl_file_get_contents($imgurl);
+
         $img_obj = imagecreatefromstring($avatardata);
-        
+
         if($img_obj !== false){
             // 头像 large
             $new_w = 73;
             $new_h = 73;
-            
+
             $new_image = imagecreatetruecolor($new_w, $new_h);
             $bg = imagecolorallocate ( $new_image, 255, 255, 255 );
             imagefill ( $new_image, 0, 0, $bg );
-            
+
             ////目标文件，源文件，目标文件坐标，源文件坐标，目标文件宽高，源宽高
             imagecopyresampled($new_image, $img_obj, 0, 0, 0, 0, $new_w, $new_h, 100, 100);
             // 保存头像
             imagejpeg($new_image, 'avatar/large/'.$cur_uid.'.png', 95);
-            
+
             // 头像 normal
             $new_w = 48;
             $new_h = 48;
-            
+
             $new_image = imagecreatetruecolor($new_w, $new_h);
             $bg = imagecolorallocate ( $new_image, 255, 255, 255 );
             imagefill ( $new_image, 0, 0, $bg );
-            
+
             ////目标文件，源文件，目标文件坐标，源文件坐标，目标文件宽高，源宽高
             imagecopyresampled($new_image, $img_obj, 0, 0, 0, 0, $new_w, $new_h, 100, 100);
             // 保存头像
             imagejpeg($new_image, 'avatar/normal/'.$cur_uid.'.png', 95);
-            
+
             // 头像 mini
             $new_w = 24;
             $new_h = 24;
-            
+
             $new_image = imagecreatetruecolor($new_w, $new_h);
             $bg = imagecolorallocate ( $new_image, 255, 255, 255 );
             imagefill ( $new_image, 0, 0, $bg );
-            
+
             ////目标文件，源文件，目标文件坐标，源文件坐标，目标文件宽高，源宽高
             imagecopyresampled($new_image, $img_obj, 0, 0, 0, 0, $new_w, $new_h, 100, 100);
             // 保存头像
             imagejpeg($new_image, 'avatar/mini/'.$cur_uid.'.png', 95);
-            
+
             imagedestroy($img_obj);
             imagedestroy($new_image);
-            
-            // 
+
+            //
             $DBS->unbuffered_query("UPDATE yunbbs_users SET avatar='$cur_uid' WHERE id='$cur_uid'");
         }
-        
+
     }
     header('location: /');
     exit;

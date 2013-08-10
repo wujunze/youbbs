@@ -10,7 +10,7 @@ if($options['authorized'] || $options['close']){
 
 // 获取最近文章列表
 $query_sql = "SELECT a.id,a.cid,a.uid,a.ruid,a.title,a.content,a.addtime,a.edittime,a.comments,c.name as cname,u.name as author
-    FROM yunbbs_articles a 
+    FROM yunbbs_articles a
     LEFT JOIN yunbbs_categories c ON c.id=a.cid
     LEFT JOIN yunbbs_users u ON a.uid=u.id
     ORDER BY id DESC LIMIT 10";
@@ -61,7 +61,7 @@ echo '</feed>';
 $_output = ob_get_contents();
 ob_end_clean();
 
-header("content-Type: application/atom+xml");
+header("content-Type: application/atom+xml;charset=utf-8");
 
 echo $_output;
 
