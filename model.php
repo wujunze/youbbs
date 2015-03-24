@@ -16,7 +16,7 @@ if( !$options['site_create']){
     $m_obj = $DBS->fetch_one_array($query);
     if($m_obj){
         $site_create = $m_obj['regtime'];
-        $DBS->query("INSERT INTO yunbbs_settings VALUES('site_create', '$site_create')");
+        //$DBS->query("INSERT INTO yunbbs_settings VALUES('site_create', '$site_create')");
         $options['site_create'] = $site_create;
     }
 }
