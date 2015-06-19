@@ -1,4 +1,15 @@
-#YouBBS for VPS v2.0
+#YouBBS for VPS v2.01
+
+#### 感谢 eoen 作了v2.0 的工作。让youBBS 更好看，代码更整齐，也让我有点动力更新youBBS。
+
+## youBBS V2.01 的一点改变
+
+* 修改模版上的一些链接bug
+* 页面脚本小的改动
+* 添加tag 及相关帖子
+* 使用file-cache 缓存，让youBBS 更飞快
+
+------
 
 ####鉴于YouBBS益于开源，归于开源的分享精神，现在公布v2.0（VPS）版本的源码。
 
