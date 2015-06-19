@@ -1,17 +1,17 @@
 <?php 
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
-echo '
-<div class="title"><a href="/">',$options['name'],'</a> &raquo; ',$title,'</div>
-<div class="main-box">
-<p class="red" style="margin-left:60px;">';
 foreach($errors as $error){
-    echo '› ',$error,' <br/>';
+    echo '<div id="closes" class="errortipc"><i class="fa fa-info-circle"></i> ',$error,' <span id="close"><i class="fa fa-times"></i></span></div>';
 }
+echo '
+<div class="title"><i class="fa fa-angle-double-right"></i> 取回密码</div>
+<div class="main-box">
+<p class="red fs12" style="margin-left:60px;"><i class="fa fa-bullhorn"></i> 请填写注册时提供的邮箱地址<br/>';
+
 echo '</p>
-<p class="grey fs12">请填写登录名和个人设置里的邮箱：</p>
 <form action="',$_SERVER["REQUEST_URI"],'" method="post">
-<p><label>登录名： <input type="text" name="name" class="sl wb50" value="',htmlspecialchars($name),'" /></label>  <br/><span class="grey fs12">允许字母、数字、中文，不能全为数字，4~12个字节</span></p>
+<p><label>用户名： <input type="text" name="name" class="sl wb50" value="',htmlspecialchars($name),'" /></label></p>
 <p><label>邮　箱： <input type="text" name="email" class="sl wb50" value="" /></label></p>
 <p><input type="submit" value=" ',$title,' " name="submit" class="textbtn" style="margin-left:60px;" /> </p>';
 if($url_path == 'login'){
@@ -26,5 +26,13 @@ if($url_path == 'login'){
 echo '</p>
 </form>
 </div>';
+echo'
+<script>
+$(document).ready(function(){
+  $("#close").click(function(){
+    $("#closes").remove();
+  });
+});
+</script>';
 
 ?>

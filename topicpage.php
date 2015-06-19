@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', dirname(__FILE__));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 
 $tid = intval($_GET['tid']);
@@ -10,7 +11,7 @@ $tid = intval($_GET['tid']);
 $page = intval($_GET['page']);
 
 // 获取文章
-$query = "SELECT a.id,a.cid,a.uid,a.ruid,a.title,a.content,a.addtime,a.edittime,a.views,a.comments,a.closecomment,a.favorites,a.visible,u.avatar as uavatar,u.name as author
+$query = "SELECT a.id,a.cid,a.uid,a.ruid,a.title,a.content,a.tags,a.addtime,a.edittime,a.views,a.comments,a.closecomment,a.favorites,a.visible,u.avatar as uavatar,u.name as author
     FROM yunbbs_articles a 
     LEFT JOIN yunbbs_users u ON a.uid=u.id
     WHERE a.id='$tid'";
@@ -22,7 +23,7 @@ if($t_obj){
         }else{
             header("HTTP/1.0 404 Not Found");
             header("Status: 404 Not Found");
-            include(dirname(__FILE__) . '/404.html');
+            include(CURRENT_DIR . '/404.html');
             exit;
             
         }
@@ -30,10 +31,15 @@ if($t_obj){
 }else{
     header("HTTP/1.0 404 Not Found");
     header("Status: 404 Not Found");
-    include(dirname(__FILE__) . '/404.html');
+    include(CURRENT_DIR . '/404.html');
     exit;
     
 }
+/*
+	if($t_obj['cid'] == 1){
+        $t_obj['closecomment'] = 1;//水区禁止评论
+    }
+*/
 $t_obj['addtime'] = showtime($t_obj['addtime']);
 $t_obj['edittime'] = showtime($t_obj['edittime']);
 if($is_spider || $tpl){
@@ -47,14 +53,14 @@ if($is_spider || $tpl){
 // 处理正确的评论页数
 $taltol_page = ceil($t_obj['comments']/$options['commentlist_num']);
 if($page<0){
-    header('location: /t-'.$tid);
+    header('location: /topics/'.$tid);
     exit;
 }else if($page==1){
-    header('location: /t-'.$tid);
+    header('location: /topics/'.$tid);
     exit;
 }else{
     if($page>$taltol_page){
-        header('location: /t-'.$tid.'-'.$taltol_page);
+        header('location: /topics/'.$tid.'/'.$taltol_page);
         exit;
     }
 }
@@ -104,10 +110,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 }
             }
             
+            // cache
+            $cache->mdel(array('home_articledb', 'site_infos'));
+            
             // 跳到评论最后一页
             if($page<$new_taltol_page){
                 $c_content = '';
-                header('location: /t-'.$tid.'-'.$new_taltol_page);
+                header('location: /topics/'.$tid.'/'.$new_taltol_page);
                 exit;
             }else{
                 $cur_ucode = $new_ucode;
@@ -189,17 +198,108 @@ if ($cur_user){
     }
 }
 
+// tag
+$tags_raw = $t_obj['tags'];  // 原标签
+$t_obj['relative_topics'] = '';  // 相关文章
+$t_obj['relative_tags'] = '';  // 相关标签，从相关文章的标签获取
+
+// 根据tag获取相关文章，按相同标签个数排序
+if($t_obj['tags']){
+    $relative_info = $cache->get('relative_info:' . $tid, 7200);
+
+    if($relative_info === FALSE){
+        // 设置相关文章数
+        $post_relative_num = 10;
+
+        $relative_ids = array();
+        $relative_topics = array();
+        $relative_tags = array();
+        
+        $tag_list = explode(",", $t_obj['tags']);
+        $new_tag_list = array();
+        foreach($tag_list as $tag){
+            $tag_obj = $DBS->fetch_one_array("SELECT * FROM `yunbbs_tags` WHERE `name`='".$tag."'");
+            $new_tag_list[] = '<a href="/tag/'.$tag.'">'.$tag.'</a>';
+            $relative_ids[] = $tag_obj['ids'];
+        }
+        // set new tags
+        $t_obj['tags'] = implode(" ", $new_tag_list);
+        unset($new_tag_list);
+
+        $relative_ids = implode(",", $relative_ids);
+        $relative_ids = str_replace(",".$tid.",", ",", $relative_ids);
+        $relative_ids = explode(",", $relative_ids);
+        $relative_ids = array_diff($relative_ids, array($tid));
+
+        // 根据相同标签数排序
+        // count id num & sort
+        $k_count = array_count_values($relative_ids);
+        arsort($k_count);
+        //
+        if(count($k_count) > $post_relative_num){
+            $k_count = array_slice($k_count, 0, $post_relative_num, true);
+        }
+        $relative_ids = array_keys($k_count);
+
+        // get post by relative_ids
+        if($relative_ids){
+            // 按id添加顺序排列
+            foreach($relative_ids as $aid){
+                $relative_topics[$aid] = '';
+            }
+
+            $relative_ids = implode(",", $relative_ids);
+            $query_sql = "SELECT `id`,`title`,`tags`
+                FROM `yunbbs_articles`
+                WHERE `id` in(".$relative_ids.")";
+            $query = $DBS->query($query_sql);
+            while ($article = $DBS->fetch_array($query)) {
+                $relative_topics[$article['id']] = array('id'=>$article['id'], 'title'=>$article['title']);
+                $relative_tags[] = $article['tags'];
+            }
+            $t_obj['relative_topics'] = $relative_topics;
+            
+            $tags_str = implode(",", $relative_tags);
+            $relative_tags = explode(",", $tags_str);
+            $relative_tags = array_filter(array_unique($relative_tags));
+            $relative_tags = array_diff($relative_tags, $tag_list);
+            if($relative_tags){
+                $new_tag_list = array();
+                foreach($relative_tags as $tag){
+                    $new_tag_list[] = '<a href="/tag/'.$tag.'">'.$tag.'</a>';
+                }
+                $t_obj['relative_tags'] = implode(" ", $new_tag_list);
+                unset($tags_str,$new_tag_list);
+            }
+                
+            $DBS->free_result($query);
+        }
+
+        $relative_info = array('tags'=>$t_obj['tags'], 'relative_topics'=>$t_obj['relative_topics'], 'relative_tags'=>$t_obj['relative_tags']);
+        $cache->set('relative_info:' . $tid, $relative_info);
+
+        unset($relative_ids, $relative_topics, $relative_info, $tag_list);
+    }else{
+        $t_obj['tags'] = $relative_info['tags'];
+        $t_obj['relative_topics'] = $relative_info['relative_topics'];
+        $t_obj['relative_tags'] = $relative_info['relative_tags'];
+    }
+}
+
+// 获取相关文章 end, 真费劲，没有缓存最好不用
+
 // 页面变量
-$title = $t_obj['title'];
+$title = $t_obj['title'].'- ' . $options['name'];
 $newest_nodes = get_newest_nodes();
 $links = get_links();
+$meta_kws = $tags_raw;
 $meta_des = $c_obj['name'].' - '.$t_obj['author'].' - '.htmlspecialchars(mb_substr($t_obj['content'], 0, 150, 'utf-8'));
 // 设置回复图片最大宽度
 $img_max_w = 590;
-$canonical = '/t-'.$t_obj['id'];
+$canonical = '/topics/'.$t_obj['id'];
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'postpage.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'postpage.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

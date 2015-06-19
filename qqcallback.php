@@ -1,8 +1,9 @@
 <?php 
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 error_reporting(0);
 session_start();
@@ -13,7 +14,7 @@ $_SESSION["appkey"]   = $options['qq_appkey'];
 $_SESSION["callback"] = 'http://'.$_SERVER['HTTP_HOST'].'/qqcallback';
 
 
-include(dirname(__FILE__) . "/api/qq_utils.php");
+include(CURRENT_DIR . "/include/qq_utils.php");
 
 function qq_callback()
 {

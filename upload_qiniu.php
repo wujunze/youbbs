@@ -1,9 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-$root_path = dirname(__FILE__);
-include($root_path . '/config.php');
-include($root_path . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if (!$cur_user) exit('error: 401 login please');
 if ($cur_user['flag']==0){
@@ -23,8 +23,8 @@ $secretKey = '';
 
 //
 
-require_once($root_path . "/qiniu/io.php");
-require_once($root_path . "/qiniu/rs.php");
+require_once(CURRENT_DIR . "/include/qiniu/io.php");
+require_once(CURRENT_DIR . "/include/qiniu/rs.php");
 
 //
 

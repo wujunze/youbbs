@@ -23,7 +23,7 @@ if(!$options['close_upload']){
 echo '
 <p><input type="submit" value=" 保 存 " name="submit" class="textbtn" /></p>
 </form>
-<a href="/t-',$r_obj['articleid'],'">查看这条评论所在的帖子</a>
+<a href="/topics/',$r_obj['articleid'],'">查看这条评论所在的帖子</a>
 </div>';
 
 

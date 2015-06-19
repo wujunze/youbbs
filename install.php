@@ -1,5 +1,5 @@
 <?php
-
+exit('nil');
 define('IN_SAESPOT', 1);
 @header("content-Type: text/html; charset=UTF-8");
 

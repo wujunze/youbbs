@@ -8,68 +8,51 @@ class DB_MySQL  {
     var $link;
 
     function connect($servername, $dbport, $dbusername, $dbpassword, $dbname) {
+        $this->link = mysqli_connect($servername, $dbusername, $dbpassword, $dbname, $dbport);
+        if (mysqli_connect_errno($this->link)) {
+            $this->halt("Failed to connect to MySQL: " . mysqli_connect_error());
+            exit();
+        }
         
-        if(!$this->link = @mysql_connect($servername.':'.$dbport, $dbusername, $dbpassword)) {
-            $this->halt('Can not connect to MySQL server');
-        }
-
-        if($this->version() > '4.1') {
-            global $charset, $dbcharset;
-            if(!$dbcharset && in_array(strtolower($charset), array('gbk', 'big5', 'utf-8'))) {
-                $dbcharset = str_replace('-', '', $charset);
-            }
-
-            if($dbcharset) {
-                mysql_query("SET character_set_connection=$dbcharset, character_set_results=$dbcharset, character_set_client=binary", $this->link);
-            }
-
-            if($this->version() > '5.0.1') {
-                mysql_query("SET sql_mode=''", $this->link);
-            }
-        }
-
-        if($dbname) {
-            mysql_select_db($dbname, $this->link);
-        }
+        mysqli_set_charset($this->link, "utf8"); 
+        mysqli_select_db($this->link, $dbname);
     }
 
 
     function geterrdesc() {
-        return (($this->link) ? mysql_error($this->link) : mysql_error());
+        return mysqli_connect_error();
     }
 
     function geterrno() {
-        return intval(($this->link) ? mysql_errno($this->link) : mysql_errno());
+        return intval(mysqli_connect_errno());
     }
 
     function insert_id() {
-        return ($id = mysql_insert_id($this->link)) >= 0 ? $id : $this->result($this->query("SELECT last_insert_id()"), 0);
+        return ($id = mysqli_insert_id($this->link)) >= 0 ? $id : $this->result($this->query("SELECT last_insert_id()"), 0);
     }
 
     function fetch_array($query, $result_type = MYSQL_ASSOC) {
-        return mysql_fetch_array($query, $result_type);
+        return mysqli_fetch_array($query, $result_type);
     }
 
-    function query($sql, $type = '') {
-        $func = $type == 'UNBUFFERED' && @function_exists('mysql_unbuffered_query') ? 'mysql_unbuffered_query' : 'mysql_query';
-        if(!($query = $func($sql)) && $type != 'SILENT') {
-            $this->halt('MySQL Query Error', $sql);
-        }
+    function query($sql) {
+        $query = mysqli_query($this->link, $sql);
         $this->querycount++;
         return $query;
     }
 
     function unbuffered_query($sql) {
-        $query = $this->query($sql, 'UNBUFFERED');
+        $query = mysqli_query($this->link, $sql, MYSQLI_USE_RESULT);
+        $this->querycount++;
         return $query;
     }
 
     function select_db($dbname) {
-        return mysql_select_db($dbname, $this->link);
+        return mysqli_select_db($dbname, $this->link);
     }
 
     function fetch_row($query) {
-        $query = mysql_fetch_row($query);
+        $query = mysqli_fetch_row($query);
         return $query;
     }
 
@@ -80,30 +63,30 @@ class DB_MySQL  {
     }
 
     function num_rows($query) {
-        $query = mysql_num_rows($query);
+        $query = mysqli_num_rows($query);
         return $query;
     }
 
     function num_fields($query) {
-        return mysql_num_fields($query);
+        return mysqli_num_fields($query);
     }
 
     function result($query, $row) {
-        $query = @mysql_result($query, $row);
+        $query = @mysqli_result($query, $row);
         return $query;
     }
 
     function free_result($query) {
-        $query = mysql_free_result($query);
+        $query = mysqli_free_result($query);
         return $query;
     }
 
     function version() {
-        return mysql_get_server_info($this->link);
+        return mysqli_get_server_info($this->link);
     }
 
     function close() {
-        return mysql_close($this->link);
+        return mysqli_close($this->link);
     }
 
     function halt($msg ='', $sql=''){
@@ -117,7 +100,7 @@ class DB_MySQL  {
         $message .= "</head>\n";
         $message .= "<body bgcolor=\"#FFFFFF\" text=\"#000000\" link=\"#006699\" vlink=\"#5493B4\">\n";
 
-        $message .= "<p>数据库出错:</p><pre><b>".htmlspecialchars($msg)."</b></pre>\n";
+        $message .= "<p>MySQL Database error:</p><pre><b>".htmlspecialchars($msg)."</b></pre>\n";
         $message .= "<b>Mysql error description</b>: ".htmlspecialchars($this->geterrdesc())."\n<br />";
         $message .= "<b>Mysql error number</b>: ".$this->geterrno()."\n<br />";
         $message .= "<b>Date</b>: ".date("Y-m-d @ H:i")."\n<br />";

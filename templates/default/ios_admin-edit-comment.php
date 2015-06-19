@@ -17,7 +17,7 @@ echo '
 <p><textarea id="id-content" name="content" class="comment-text mll wb96">',$r_content,'</textarea></p>
 <p><input type="submit" value=" 保 存 " name="submit" class="textbtn wb96" /></p>
 </form>
-<a href="/t-',$r_obj['articleid'],'">查看这条评论所在的帖子</a>
+<a href="/topics/',$r_obj['articleid'],'">查看这条评论所在的帖子</a>
 </div>';
 
 

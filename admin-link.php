@@ -1,10 +1,11 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
-if (!$cur_user || $cur_user['flag']<99) exit('error: 403 Access Denied');
+if (!$cur_user || $cur_user['flag'] < 99) exit('error: 403 Access Denied');
 
 $act = trim($_GET['act']);
 $lid = intval($_GET['lid']);
@@ -27,6 +28,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if($n_name && $n_url){
             if($DBS->query("INSERT INTO yunbbs_links (id,name,url) VALUES (null,'$n_name','$n_url')")){
                 $tip1 = '已成功添加';
+                $cache->clear('site_links');
             }else{
                 $tip1 = '数据库更新失败，修改尚未保存，请稍后再试';
             }
@@ -41,6 +43,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $l_obj['name'] = $n_name;
                 $l_obj['url'] = $n_url;
                 $tip2 = '已成功保存';
+                $cache->clear('site_links');
             }else{
                 $tip2 = '数据库更新失败，修改尚未保存，请稍后再试';
             }
@@ -52,6 +55,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }else{
     if($act == 'del'){
         $DBS->unbuffered_query("DELETE FROM yunbbs_links WHERE id='$lid'");
+        $cache->clear('site_links');
     }
     
 }
@@ -69,8 +73,8 @@ while ($link = $DBS->fetch_array($query)) {
 $title = '链接管理';
 
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'admin-link.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'admin-link.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

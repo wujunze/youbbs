@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if (!$cur_user || $cur_user['flag']<99) exit('error: 403 Access Denied');
 
@@ -171,10 +172,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
         if($changed){
             $tip1 = '已成功更改了 '.$changed.' 个设置';
+            $cache->clear('site_options');
         }
     }else if($action =='flushmc'){
-        $tip2 = '没有用到缓存';
+        $tip2 = '缓存已清空';
+        $files = glob(CURRENT_DIR . '/cache/*'); // get all file names
+        foreach($files as $file){ // iterate files
+            if(is_file($file)){
+                unlink($file); // delete file
+            }
+        }
     }else if($action =='flushdata'){
+        /*
         $DBS->query("DROP TABLE IF EXISTS `yunbbs_articles`");
         $DBS->query("DROP TABLE IF EXISTS `yunbbs_categories`");
         $DBS->query("DROP TABLE IF EXISTS `yunbbs_comments`");
@@ -184,6 +193,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $DBS->query("DROP TABLE IF EXISTS `yunbbs_favorites`");
         $DBS->query("DROP TABLE IF EXISTS `yunbbs_qqweibo`");
         $DBS->query("DROP TABLE IF EXISTS `yunbbs_weibo`");
+        */
         
         $tip3 = '所有数据已删除';
         header('location: /install');
@@ -194,8 +204,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $title = '网站设置';
 
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'admin-setting.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'admin-setting.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

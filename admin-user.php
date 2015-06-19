@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if (!$cur_user || $cur_user['flag']<99) exit('error: 403 Access Denied');
 
@@ -57,8 +58,8 @@ while ($user = $DBS->fetch_array($query)) {
 $title = '用户管理';
 
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'admin-user.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'admin-user.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

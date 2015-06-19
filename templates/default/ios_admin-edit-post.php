@@ -32,15 +32,18 @@ echo '
 <input type="text" name="title" value="',$p_title,'" class="sll wb96" />
 </p>
 <p><textarea name="content" class="mll wb96 tall">',$p_content,'</textarea></p>
-<p><label><input type="checkbox" name="closecomment" value="1" ',$t_obj['closecomment'],'/> 关闭评论</label>  •  <label><input type="checkbox" name="visible" value="0" ',$t_obj['visible'],'/> 隐藏帖子（对非管理员显示404）</label></p>
+<p>
+标签： <input type="text" name="tags" value="',$p_tags,'" class="sll wb60" /> 用逗号或空格分开(可不填)
+</p>
+<p>
+<label><input type="checkbox" name="closecomment" value="1" ',$t_obj['closecomment'],'/> 关闭评论</label>&nbsp;&nbsp;
+<label><input type="checkbox" name="visible" value="1" ',$t_obj['visible'],'/> 显示帖子</label>&nbsp;&nbsp;
+<label><input type="checkbox" name="top" value="1" ',$t_obj['top'],'/> 首页置顶</label>&nbsp;&nbsp;
+<label><input type="checkbox" name="fop" value="1" ',$t_obj['fop'],'/> 版块置顶</label>&nbsp;&nbsp;
+<label><input type="checkbox" name="isred" value="1" ',$t_obj['isred'],'/> 推荐帖子</label>
+</p>
 <p><input type="submit" value=" 保 存 " name="submit" class="textbtn" /></p>
 </form>
-<p class="fs12 c666">发帖指南：</p>
-<p class="fs12 c666">
-纯文本格式，不支持html 或 ubb 代码<br/>
-贴图： 可直接粘贴图片地址，如 http://www.baidu.com/xxx.gif （支持jpg/gif/png后缀名），也可直接上传<br/>
-贴视频： 可直接视频地址栏里的网址，如 http://www.tudou.com/programs/view/PAH86KJNoiQ/ （仅支持土豆/优酷/QQ）<br/>
-</p>
 
 </div>';
 

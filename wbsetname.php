@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 
 if($cur_user){
@@ -212,8 +213,8 @@ if(isset($gotohome)){
 $title = '设置名字';
 $logintype = "微博";
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'qqsetname.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'qqsetname.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

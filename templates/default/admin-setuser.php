@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 echo '
 <a name="4"></a>
-<div class="title"><a href="/">',$options['name'],'</a> &raquo; ',$title,'  &raquo; 用户名： <span class="red">',$m_obj['name'],'</span></div>
+<div class="title">设置用户权限 <span class="red">',$m_obj['name'],'</span></div>
 <div class="main-box">
 <p class="red">',$tip4,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#4">
@@ -47,10 +47,6 @@ echo '
     <tr>
         <td width="120" align="right">个人网站</td>
         <td width="auto" align="left"><input type="text" class="sl" name="url" value="',htmlspecialchars(stripslashes($m_obj['url'])),'" /></td>
-    </tr>
-    <tr>
-        <td width="120" align="right">个人简介</td>
-        <td width="auto" align="left"><textarea class="ml" name="about">',htmlspecialchars(stripslashes($m_obj['about'])),'</textarea></td>
     </tr>
     <tr>
         <td width="120" align="right"></td>
@@ -111,6 +107,24 @@ echo '
     <tr>
         <td width="120" align="right"></td>
         <td width="auto" align="left"><input type="submit" value="重设密码" name="submit" class="textbtn" /></td>
+    </tr>
+    
+</tbody></table>
+</form>
+
+</div>
+
+<a name="5"></a>
+<div class="title">为<span class="red">',$m_obj['name'],'</span>取消二次验证</div>
+<div class="main-box">
+<p class="red">',$tip5,'</p>
+<form method="post" action="',$_SERVER["REQUEST_URI"],'#5">
+<input type="hidden" name="action" value="rmgauth" />
+<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs12">
+    <tbody>
+    <tr>
+        <td width="120" align="right"></td>
+        <td width="auto" align="left"><input type="submit" value="取消二次验证" name="submit" class="textbtn" /></td>
     </tr>
     
 </tbody></table>

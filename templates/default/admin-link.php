@@ -4,7 +4,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 echo '
 <a name="add"></a>
 <div class="title">
-    <a href="/">',$options['name'],'</a> &raquo; - 添加链接
+   <i class="fa fa-angle-double-right"></i> 添加链接
 </div>
 
 <div class="main-box">';
@@ -25,7 +25,7 @@ echo '
 if($l_obj){
 echo '
 <a name="edit"></a>
-<div class="title">修改链接</div>
+<div class="title"><i class="fa fa-angle-double-right"></i> 修改链接</div>
 
 <div class="main-box">';
 if($tip2){
@@ -47,13 +47,13 @@ echo '
 if($linkdb){
 echo '
 <a name="list"></a>
-<div class="title">链接列表</div>
+<div class="title"><i class="fa fa-angle-double-right"></i> 链接列表</div>
 
 <div class="main-box">';
 echo '
 <ul class="user-list">';
 foreach($linkdb as $link){
-    echo '<li><a href="',$link['url'],'" target="_blank">',$link['name'],'</a> • ',$link['url'],'  &nbsp;&nbsp;&nbsp;• <a href="/admin-link-edit-',$link['id'],'#1">编辑</a>  &nbsp;&nbsp;&nbsp;• <a href="/admin-link-del-',$link['id'],'#list">删除</a></li>';
+    echo '<li><i class="fa fa-diamond"></i> <a href="',$link['url'],'" target="_blank">',$link['name'],'</a>&nbsp;&nbsp;<span class="centli"><i class="fa fa-link"></i> ',$link['url'],'</span><span class="reghtlink"><a href="/admin-link-edit-',$link['id'],'#1" title="编辑"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/admin-link-del-',$link['id'],'#list" title="删除"><i class="fa fa-times"></i></a></span></li>';
 }
 
 echo '</ul>

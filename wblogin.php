@@ -1,10 +1,11 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
-include( 'saetv2.ex.class.php' );
+include(CURRENT_DIR . '/include/saetv2.ex.class.php' );
 
 $o = new SaeTOAuthV2( $options['wb_key'] , $options['wb_secret'] );
 

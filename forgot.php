@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if($cur_user && $cur_user['flag'] == 0){
     header('location: /');
@@ -52,8 +53,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $title = '找回密码';
 
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'forgot.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'forgot.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

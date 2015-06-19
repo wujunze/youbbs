@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if (!$cur_user) exit('error: 401 login please');
 if ($cur_user['flag']==0){
@@ -42,6 +43,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     $p_title = addslashes(trim($_POST['title']));
     $p_content = addslashes(trim($_POST['content']));
+    $p_tags = gettags(trim($_POST['tags']));
     
     // spam_words
     if($options['spam_words'] && $cur_user['flag']<99){
@@ -65,10 +67,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(mb_strlen($p_title,'utf-8')<=$options['article_title_max_len'] && mb_strlen($p_content,'utf-8')<=$options['article_content_max_len']){
                 $p_title = htmlspecialchars($p_title);
                 $p_content = htmlspecialchars($p_content);
-                $DBS->query("INSERT INTO yunbbs_articles (id,cid,uid,title,content,addtime,edittime) VALUES (null,$cid,$cur_uid, '$p_title', '$p_content', $timestamp, $timestamp)");
+                $p_tags = htmlspecialchars($p_tags);
+                $DBS->query("INSERT INTO yunbbs_articles (id,cid,uid,title,content,tags,addtime,edittime) VALUES (null,$cid,$cur_uid, '$p_title', '$p_content', '$p_tags', $timestamp, $timestamp)");
                 $new_aid = $DBS->insert_id();
                 $DBS->unbuffered_query("UPDATE yunbbs_categories SET articles=articles+1 WHERE id='$cid'");
                 $DBS->unbuffered_query("UPDATE yunbbs_users SET articles=articles+1, lastposttime=$timestamp WHERE id='$cur_uid'");
+                // set tags
+                if($p_tags){
+                    $newadd_tags = explode(",", $p_tags);
+                    foreach($newadd_tags as $tag){
+                        $tag_obj  = $DBS->fetch_one_array("SELECT `id`,`articles`,`ids` FROM `yunbbs_tags` WHERE `name`='$tag'");
+                        if(empty($tag_obj)) {
+                            $DBS->query("INSERT INTO `yunbbs_tags` (`id`,`name`,`articles`,`ids`) VALUES (null,'$tag', '1', '$new_aid')");
+                        } else {
+                            if($tag_obj['ids']){
+                                $ids_arr = explode(",", $tag_obj['ids']);
+                                if(!in_array($new_aid, $ids_arr)){
+                                    $ids = $new_aid.','.$tag_obj['ids'];
+                                    $DBS->unbuffered_query("UPDATE `yunbbs_tags` SET `articles`=`articles`+1, `ids`='$ids' WHERE `name`='$tag'");
+                                }
+                            }else{
+                                $ids = $new_aid;
+                                $DBS->unbuffered_query("UPDATE `yunbbs_tags` SET `articles`=`articles`+1, `ids`='$ids' WHERE `name`='$tag'");
+                            }
+                        }
+                    }
+                }
                 // 更新u_code
                 $cur_user['lastposttime'] = $timestamp;
                 //
@@ -85,8 +109,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     }
                 }
                 
-                $p_title = $p_content = '';
-                header('location: /t-'.$new_aid);
+                // cache
+                $cache->mdel(array('home_articledb', 'hot_nodes', 'site_infos'));
+                
+                $p_title = $p_content = $p_tags = '';
+                header('location: /topics/'.$new_aid);
                 exit;
             }else{
                 $tip = '标题'.mb_strlen($p_title,'utf-8').' 或 内容'.mb_strlen($p_content,'utf-8').' 太长了';
@@ -100,6 +127,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }else{
     $p_title = '';
     $p_content = '';
+    $p_tags = '';
     $tip = '';
     $c_obj = $DBS->fetch_one_array("SELECT * FROM yunbbs_categories WHERE id='".$cid."'");
     if(!$c_obj){
@@ -112,8 +140,8 @@ $title = '发新帖子';
 $img_max_w = 650;
 $newpost_page = '1';
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'newpost.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'newpost.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

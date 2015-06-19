@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if (!$cur_user || $cur_user['flag']<99) exit('error: 403 Access Denied');
 
@@ -39,6 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }else{
                 if($DBS->query("INSERT INTO yunbbs_categories (id,name,about) VALUES (null,'$n_name','$n_about')")){
                     $tip1 = '已成功添加';
+                    $cache->mdel(array('new_nodes', 'hot_nodes', 'site_infos'));
                 }else{
                     $tip1 = '数据库更新失败，修改尚未保存，请稍后再试';
                 }
@@ -54,6 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $c_obj['name'] = $n_name;
                 $c_obj['about'] = $n_about;
                 $tip2 = '已成功保存';
+                $cache->mdel(array('new_nodes', 'hot_nodes'));
             }else{
                 $tip2 = '数据库更新失败，修改尚未保存，请稍后再试';
             }
@@ -69,8 +72,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $title = '分类管理';
 
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'admin-node.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'admin-node.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

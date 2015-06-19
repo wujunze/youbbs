@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="float-right grey fs12">
+<div class="float-left grey fs12">
 上传附件';
 if($options['ext_list']){
     echo '（',$options['ext_list'],'）';

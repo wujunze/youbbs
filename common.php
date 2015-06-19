@@ -6,7 +6,7 @@
  *在 youBBS 的代码基础之上发布派生版本，名字可以不包含youBBS，
  *但是页脚需要带有 based on youBBS 的字样和链接。
  */
-define('SAESPOT_VER', '1.04');
+define('SAESPOT_VER', '2.0');
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 
 $mtime = explode(' ', microtime());
@@ -15,10 +15,14 @@ $timestamp = time();
 $php_self = addslashes(htmlspecialchars($_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME']));
 $url_path = substr($php_self, 1,-4);
 
-include (dirname(__FILE__) . '/include/mysql.class.php');
+include (CURRENT_DIR . '/include/mysql.class.php');
 // 初始化从数据类，若要写、删除数据则需要定义主数据类
 $DBS = new DB_MySQL;
 $DBS->connect($servername, $dbport, $dbusername, $dbpassword, $dbname);
+
+// cache
+include(CURRENT_DIR . '/include/JG_Cache.php');
+$cache = new JG_Cache(CURRENT_DIR . '/cache');
 
 // 去除转义字符
 function stripslashes_array(&$array) {
@@ -65,7 +69,7 @@ if($cur_uname && $cur_uid && $cur_ucode){
 
 }
 
-include (dirname(__FILE__) . '/model.php');
+include (CURRENT_DIR . '/model.php');
 
 // 获得散列
 function formhash() {
@@ -164,7 +168,7 @@ function showtime($db_time){
 }
 
 // 格式化帖子、回复内容
-function set_content($text,$spider='0'){
+function set_content($text, $spider='0'){
     global $options;
     // images
     $img_re = '/(http[s]?:\/\/?('.$options['safe_imgdomain'].').+\.(jpg|jpe|jpeg|gif|png))\w*/';
@@ -222,15 +226,15 @@ function set_content($text,$spider='0'){
         $text = preg_replace('/(https?:\/\/gist\.github\.com\/([a-zA-Z0-9-]+\/)?[\d]+)/', '<script src="\1.js"></script>', $text);
     }
     // mentions
-    if(strpos(' '.$text, '@')){
-        $text = preg_replace('/\B\@([a-zA-Z0-9\x80-\xff]{4,20})/', '@<a href="'.$options['base_url'].'/member/\1">\1</a>', $text);
+    if(strpos($text, '@') !== false){
+        $text = preg_replace('/\B\@([a-zA-Z0-9\x80-\xff]{4,20})/', '@<a href="'.$options['base_url'].'/user/\1">\1</a>', $text);
     }
     // url
-    if(strpos(' '.$text, 'http')){
+    if(strpos($text, 'http') !== false){
         $text = ' ' . $text;
         $text = preg_replace(
             '`([^"=\'>])((http|https|ftp)://[^\s<]+[^\s<\.)])`i',
-            '$1<a href="$2" target="_blank" rel="nofollow">$2</a>',
+            '$1<a href="$2" target="_blank" class="linkk" rel="nofollow"><i class="fa fa-link"></i> | 网页链接</a>',
             $text
         );
         $text = substr($text, 1);
@@ -273,6 +277,28 @@ function filter_chr($string){
 //判断是否为邮件地址
 function isemail($email) {
     return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
+}
+
+// 过滤tags
+function gettags($string){
+    if($string){
+        $string = str_replace(" ", ",", strtolower($string));
+        $string = str_replace("，", ",", $string);
+        $string_arr = explode(",", $string);
+        foreach($string_arr as $k=>$tag){
+            if(preg_match('/^[a-zA-Z0-9\x80-\xff\.]{1,20}$/i', $tag)){
+                //pass
+            }else{
+                unset($string_arr[$k]);
+            }
+        }
+        $string_arr = array_filter(array_unique($string_arr));
+        // 只取前5个标签
+        $string_arr = array_slice($string_arr, 0, 5, true);
+        return implode(",", $string_arr);
+    }else{
+        return '';
+    }
 }
 
 function curl_file_get_contents($url){

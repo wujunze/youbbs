@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if (!$cur_user) exit('error: 401 login please');
 if ($cur_user['flag']==0){
@@ -42,8 +43,8 @@ if($cur_user['notic']){
 $title = '站内提醒';
 $newest_nodes = get_newest_nodes();
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'notifications.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'notifications.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

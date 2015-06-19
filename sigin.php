@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 // 屏蔽下面几行可以通过 用户名和密码 注册
 if(($options['qq_appid'] && $options['qq_appkey']) || ($options['wb_key'] && $options['wb_secret'])){
@@ -87,6 +88,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $DBS->unbuffered_query("UPDATE yunbbs_users SET flag = '99' WHERE id='1'");
         }
         
+        $cache->clear('site_infos');
         //设置cookie
         $db_ucode = md5($new_uid.$pwmd5.$timestamp.'00');
         $cur_uid = $new_uid;
@@ -101,8 +103,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 // 页面变量
 $title = '注 册';
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'sigin_login.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'sigin_login.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

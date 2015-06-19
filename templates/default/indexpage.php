@@ -3,11 +3,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 
 echo '
 <div class="title">
-    <div class="float-left fs14">
-        <a href="/">',$options['name'],'</a> &raquo; 第',$page,'页 / 共',$taltol_page,'页</div>';
-if($cur_user && $cur_user['flag']>4){
-    echo '<div class="float-right"><a href="/newpost/1" rel="nofollow" class="newpostbtn">+发新帖</a></div>';
-}
+       <i class="fa fa-angle-double-right"></i> 第',$page,'页 / 共',$taltol_page,'页';
 echo '    <div class="c"></div>
 </div>
 
@@ -16,20 +12,20 @@ echo '    <div class="c"></div>
 foreach($articledb as $article){
 echo '
 <div class="post-list">
-    <div class="item-avatar"><a href="/member/',$article['uid'],'">';
+    <div class="item-avatar"><a href="/user/',$article['uid'],'">';
 if(!$is_spider){
-    echo '<img src="/avatar/normal/',$article['uavatar'],'.png" alt="',$article['author'],'" />';
+    echo '<img src="/avatar/large/',$article['uavatar'],'.png" alt="',$article['author'],'" />';
 }else{
-    echo '<img src="/static/grey.gif" data-original="/avatar/normal/',$article['uavatar'],'.png" alt="',$article['author'],'" />';
+    echo '<img src="/static/grey.gif" data-original="/avatar/large/',$article['uavatar'],'.png" alt="',$article['author'],'" />';
 }
 echo '    </a></div>
     <div class="item-content">
-        <h1><a href="/t-',$article['id'],'">',$article['title'],'</a></h1>
-        <span class="item-date"><a href="/n-',$article['cid'],'">',$article['cname'],'</a>  •  <a href="/member/',$article['uid'],'">',$article['author'],'</a>';
+        <h1><a href="/topics/',$article['id'],'">',$article['title'],'</a></h1>
+        <span class="item-date"><i class="fa fa-archive"></i> <a href="/nodes/',$article['cid'],'">',$article['cname'],'</a>&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['uid'],'">',$article['author'],'</a>';
 if($article['comments']){
-    echo ' •  ',$article['edittime'],' •  最后回复来自 <a href="/member/',$article['ruid'],'">',$article['rauthor'],'</a>';
+    echo '&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',$article['edittime'],'&nbsp;&nbsp;<i class="fa fa-user-secret"></i> 最后回复来自 <a href="/user/',$article['ruid'],'">',$article['rauthor'],'</a>';
 }else{
-    echo ' •  ',$article['addtime'];
+    echo '&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',$article['addtime'];
 }
 echo '        </span>
     </div>';
@@ -38,9 +34,9 @@ if($article['comments']){
     if($gotopage == 1){
         $c_page = '';
     }else{
-        $c_page = '-'.$gotopage;
+        $c_page = '/'.$gotopage;
     }
-    echo '<div class="item-count"><a href="/t-',$article['id'],$c_page,'#reply',$article['comments'],'">',$article['comments'],'</a></div>';
+    echo '<div class="item-count"><a href="/topics/',$article['id'],$c_page,'#reply',$article['comments'],'">',$article['comments'],'</a></div>';
 }
 echo '    <div class="c"></div>
 </div>';
@@ -51,10 +47,10 @@ echo '    <div class="c"></div>
 if($taltol_article > $options['list_shownum']){ 
 echo '<div class="pagination">';
 if($page>1){
-echo '<a href="/page/',$page-1,'" class="float-left">&laquo; 上一页</a>';
+echo '<a href="/page/',$page-1,'" class="float-left"><i class="fa fa-angle-double-left"></i> 上一页</a>';
 }
 if($page<$taltol_page){
-echo '<a href="/page/',$page+1,'" class="float-right">下一页 &raquo;</a>';
+echo '<a href="/page/',$page+1,'" class="float-right">下一页 <i class="fa fa-angle-double-right"></i></a>';
 }
 echo '<div class="c"></div>
 </div>';

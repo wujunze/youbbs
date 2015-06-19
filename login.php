@@ -1,8 +1,10 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
+require_once(CURRENT_DIR . '/include/GoogleAuth/GoogleAuth.php');
 
 /*
 // 屏蔽下面几行可以通过 用户名和密码 登录
@@ -32,12 +34,14 @@ if($cur_user){
 
 $errors = array();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    if(empty($_SERVER['HTTP_REFERER']) || $_POST['formhash'] != formhash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])) {
-    	exit('403: unknown referer.');
-    }
+    //if(empty($_SERVER['HTTP_REFERER']) || $_POST['formhash'] != formhash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])) {
+    	//exit('403: unknown referer.');
+   // }
     
     $name = addslashes(strtolower(trim($_POST["name"])));
     $pw = addslashes(trim($_POST["pw"]));
+    $gcode = $_POST["gauth"];
+
     $seccode = intval(trim($_POST["seccode"]));
     if($name && $pw && $seccode){
         if(strlen($name)<21 && strlen($pw)<32){
@@ -52,46 +56,82 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         if($db_user){
                             $pwmd5 = md5($pw);
                             if($pwmd5 == $db_user['password']){
-                                //设置cookie
-                                $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
-                                $cur_uid = $db_user['id'];
                                 
-                                setcookie("cur_uid", $cur_uid, time()+ 86400 * 365, '/');
-                                setcookie("cur_uname", $name, time()+86400 * 365, '/');
-                                setcookie("cur_ucode", $db_ucode, time()+86400 * 365, '/');
-                                $cur_user = $db_user;
-                                unset($db_user);
+                                // G Auth Checking
                                 
-                                header('location: /');
-                                exit('logined');
+                                $gsecret = $db_user['gauthsecret'];
+
+                                if ($gsecret != Null){
+                                    if ($gcode){
+
+                                        $ga = new GoogleAuth();
+                                        $checkResult = $ga->verifyCode($gsecret, $gcode);
+
+                                        if ($checkResult) {
+                                            //设置cookie
+                                            $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
+                                            $cur_uid = $db_user['id'];
+                                            
+                                            setcookie("cur_uid", $cur_uid, time()+ 86400 * 365, '/');
+                                            setcookie("cur_uname", $name, time()+86400 * 365, '/');
+                                            setcookie("cur_ucode", $db_ucode, time()+86400 * 365, '/');
+                                            $cur_user = $db_user;
+                                            unset($db_user);
+                                            
+                                            header('location: /');
+                                            exit('logined');
+                                        } else {
+                                            $errors[] = '安全码已过期或输入不正确!';
+                                        }
+                                        
+                                    }else{
+                                        $errors[] = '您已开启二次验证，请输入安全码!';
+                                    }
+
+                                }else{
+                                    //设置cookie
+                                    $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
+                                    $cur_uid = $db_user['id'];
+                                    
+                                    setcookie("cur_uid", $cur_uid, time()+ 86400 * 365, '/');
+                                    setcookie("cur_uname", $name, time()+86400 * 365, '/');
+                                    setcookie("cur_ucode", $db_ucode, time()+86400 * 365, '/');
+                                    $cur_user = $db_user;
+                                    unset($db_user);
+                                    
+                                    header('location: /');
+                                    exit('logined');
+                                }
+
                             }else{
                                 // 用户名和密码不匹配
-                                $errors[] = '用户名 或 密码 错误';
+                                $errors[] = '输入的用户名或密码不正确!';
                             }
+
                         }else{
                             // 没有该用户名
-                            $errors[] = '用户名 或 密码 错误';
+                            $errors[] = '输入的用户名不正确!';
                         }
                     }else{
-                        $errors[] = '验证码输入不对';
+                        $errors[] = '输入的验证码不正确！';
                     }
                 }
             }else{
-                $errors[] = '名字 太长 或 太短 或 包含非法字符';
+                $errors[] = '名字太长或太短或包含非法字符！';
             }
         }else{
-            $errors[] = '用户名 或 密码 太长了';
+            $errors[] = '用户名或密码太长了！';
         }
     }else{
-       $errors[] = '用户名 和 密码 验证码 必填'; 
+       $errors[] = '用户名、密码、验证码必填！'; 
     }
 }
 
 // 页面变量
 $title = '登 录';
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'sigin_login.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'sigin_login.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

@@ -1,8 +1,9 @@
 <?php 
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
+
 echo '
 <a name="1"></a>
-<div class="title"><a href="/">',$options['name'],'</a> &raquo; ',$title,'</div>
+<div class="title"><i class="fa fa-angle-double-right"></i> 个人信息</div>
 <div class="main-box">
 <p class="red">',$tip1,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#1">
@@ -10,19 +11,15 @@ echo '
 <table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs12">
     <tbody><tr>
         <td width="120" align="right">用户名</td>
-        <td width="auto" align="left">',$cur_user['name'],'</td>
+		<td width="auto" align="left"><input class="sl w200" disabled="disabled" name="username" type="text" value="',$cur_user['name'],'"></td>
     </tr>
     <tr>
         <td width="120" align="right">电子邮件</td>
-        <td width="auto" align="left"><input type="text" class="sl w200" name="email" value="',htmlspecialchars(stripslashes($cur_user['email'])),'" /> 不公开，仅供取回密码，务必正确填写且记住。</td>
+        <td width="auto" align="left"><input type="text" class="sl w200" name="email" value="',htmlspecialchars(stripslashes($cur_user['email'])),'" /> 取回密码用</td>
     </tr>
     <tr>
         <td width="120" align="right">个人网站</td>
         <td width="auto" align="left"><input type="text" class="sl" name="url" value="',htmlspecialchars(stripslashes($cur_user['url'])),'" /></td>
-    </tr>
-    <tr>
-        <td width="120" align="right">个人简介</td>
-        <td width="auto" align="left"><textarea class="ml" name="about">',htmlspecialchars(stripslashes($cur_user['about'])),'</textarea></td>
     </tr>
     <tr>
         <td width="120" align="right"></td>
@@ -35,7 +32,7 @@ echo '
 </div>
 
 <a name="2"></a>
-<div class="title">设置头像</div>
+<div class="title"><i class="fa fa-angle-double-right"></i> 设置头像</div>
 <div class="main-box">
 <p class="red">',$tip2,'</p>
 <form action="',$_SERVER["REQUEST_URI"],'#2" enctype="multipart/form-data" method="post">
@@ -68,7 +65,7 @@ if($cur_user['password']){
 
 echo '
 <a name="3"></a>
-<div class="title">更改密码</div>
+<div class="title"><i class="fa fa-angle-double-right"></i> 更改密码</div>
 <div class="main-box">
 <p class="red">',$tip3,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#3">
@@ -128,6 +125,85 @@ echo '
 </tbody></table>
 </form>
 
+</div>';
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Add Google Autheticator 2-factor authentication on Temp
+|--------------------------------------------------------------------------
+|
+*/
+
+if($cur_user['gauthsecret'] != Null){
+
+echo '
+<a name="4"></a>
+<div class="title"><i class="fa fa-angle-double-right"></i> 关闭二次验证 </div>
+<div class="main-box">
+<p class="red">',$tip4,'</p>
+
+<form method="post" action="',$_SERVER["REQUEST_URI"],'#4">
+<input type="hidden" name="action" value="chgauth" />
+<input type="hidden" name="gsecret" value="',$cur_user["gauthsecret"],'" />
+
+<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs12">
+    <tbody>
+    <tr>
+        <td width="120" align="right">请输入Google Auth中显示的验证码以便确认</td>
+        <td width="auto" align="left"><input type="text" class="sl" name="gauthcode" value="" /></td>
+    </tr>
+    <tr>
+        <td width="120" align="right"></td>
+        <td width="auto" align="left"><input type="submit" value="确定关闭二次登录" name="submit" class="textbtn" /></td>
+    </tr>
+    
+</tbody></table>
+</form>
+
+</div>';
+
+}else{
+
+$ga = new GoogleAuth();
+
+$secret = $ga->createSecret();
+$qrCodeUrl = $ga->createQRCode($options['name'], $secret);
+
+echo '
+<a name="4"></a>
+<div class="title"><i class="fa fa-angle-double-right"></i> 设置二次验证 </div>
+<div class="main-box">
+<p class="red">',$tip4,'</p>
+
+<form method="post" action="',$_SERVER["REQUEST_URI"],'#4">
+<input type="hidden" name="action" value="setgauth" />
+<input type="hidden" name="gsecret" value="',$secret,'" />
+
+<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs12" height="120px">
+    <tbody>
+    <tr>
+        <td width="120" align="right">请输入Google Auth中显示的验证码以便确认</td>
+        <td width="auto" align="left"><input type="text" class="sl" name="gauthcode" value="" /></td>
+    </tr>
+    <tr>
+        <td width="120" align="right"></td>
+        <td width="auto" align="left"><input type="submit" value="确认设置二次登录" name="submit" class="textbtn" /></td>
+    </tr>
+    
+</tbody></table>
+
+<div id="output"></div>
+</form>
+
+<script src="/static/js/jquery.qrcode.min.js" type="text/javascript"></script>
+
+<script>
+    jQuery(function(){
+        jQuery(\'#output\').qrcode({width: 110,height: 110,text: "',$qrCodeUrl,'"});
+    })
+</script>
 </div>';
 
 }

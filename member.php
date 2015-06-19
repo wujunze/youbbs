@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 $g_mid = $_GET['mid'];
 // mid 可能id或用户名，用户注册时要限制名字不能为全数字
@@ -16,7 +17,7 @@ if(preg_match('/^[a-zA-Z0-9\x80-\xff]{1,20}$/i', $g_mid)){
 }else{
     header("HTTP/1.0 404 Not Found");
     header("Status: 404 Not Found");
-    include(dirname(__FILE__) . '/404.html');
+    include(CURRENT_DIR . '/404.html');
     exit;
     
 }
@@ -72,10 +73,11 @@ if($m_obj['articles']){
 $title = '会员: '.$m_obj['name'];
 $newest_nodes = get_newest_nodes();
 $canonical = '/member/'.$m_obj['id'];
+$meta_kws = $m_obj['name'];
 $meta_des = $m_obj['name'].' - '.htmlspecialchars(mb_substr($m_obj['about'], 0, 150, 'utf-8'));
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'member.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'member.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

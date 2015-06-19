@@ -1,10 +1,11 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
-if (!$cur_user || $cur_user['flag']<99) exit('error: 403 Access Denied');
+if (!$cur_user || $cur_user['flag'] < 99) exit('error: 403 Access Denied');
 
 $rid = intval($_GET['rid']);
 $query = "SELECT id,articleid,content FROM yunbbs_comments WHERE id='$rid'";
@@ -34,8 +35,8 @@ $title = '修改评论';
 $img_max_w = 590;
 
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'admin-edit-comment.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'admin-edit-comment.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>

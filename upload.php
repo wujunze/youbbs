@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if (!$cur_user) exit('error: 401 login please');
 if ($cur_user['flag']==0){
@@ -81,7 +82,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             
             
             ///保存
-            $upload_dir = 'upload/'.$cur_uid;
+            $upload_dir = 'upload/files';
             if(!$options['upyun_domain'] || !$options['upyun_user'] || !$options['upyun_pw']){
                 if(!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0777, true);
@@ -131,7 +132,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 
                 if($options['upyun_domain'] && $options['upyun_user'] && $options['upyun_pw']){
                     // 上传到又拍云
-                    include(dirname(__FILE__).'/upyun.class.php');
+                    include(CURRENT_DIR.'/upyun.class.php');
                     
                     if(!$is_gifs){
                         ob_start();
@@ -183,7 +184,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 //
                 if($options['upyun_domain'] && $options['upyun_user'] && $options['upyun_pw']){
                     // 上传到又拍云
-                    include(dirname(__FILE__).'/upyun.class.php');
+                    include(CURRENT_DIR.'/upyun.class.php');
                     
                     $upyun = new UpYun($options['upyun_domain'], $options['upyun_user'], $options['upyun_pw']);
                     // 本地调试失败
@@ -199,7 +200,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     // 上传到服务器
                     if (move_uploaded_file($_FILES['filetoupload']['tmp_name'], $upload_filename)) {
                         $rsp['status'] = 200;
-                        $rsp['url'] = '附件：'.$up_name.' http://'.$_SERVER['HTTP_HOST'].'/'.$upload_filename;
+                        $rsp['url'] = ' http://'.$_SERVER['HTTP_HOST'].'/'.$upload_filename;
                         $rsp['msg'] = '文件已成功上传';
                     }else{
                         $rsp['msg'] = '文件保存失败，请稍后再试';

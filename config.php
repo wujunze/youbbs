@@ -14,7 +14,7 @@ $dbusername = 'root';
 //数据库密码
 $dbpassword = '123';
 //数据库名
-$dbname = 'yunbbs';
+$dbname = 'youbbs';
 //数据端口
 $dbport = '3306';
 

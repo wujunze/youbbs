@@ -1,8 +1,9 @@
 <?php
 define('IN_SAESPOT', 1);
+define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
-include(dirname(__FILE__) . '/config.php');
-include(dirname(__FILE__) . '/common.php');
+include(CURRENT_DIR . '/config.php');
+include(CURRENT_DIR . '/common.php');
 
 if (!$cur_user || $cur_user['flag']<99) exit('error: 403 Access Denied');
 
@@ -161,6 +162,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }else{
             $tip4 = '数值不正确，请填写0~99之间的数字';
         }
+    }else if($action == 'rmgauth'){
+        if($DBS->unbuffered_query("UPDATE yunbbs_users SET gauthsecret=Null WHERE id='$mid'")){
+            //更新缓存和cookie
+            $tip5 = '成功取消Google Auth二次验证！';
+        }else{
+            $tip5 = '数据保存失败，请稍后再试！';
+        }
     }
     
 }
@@ -170,8 +178,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $title = '修改用户资料';
 
 
-$pagefile = dirname(__FILE__) . '/templates/default/'.$tpl.'admin-setuser.php';
+$pagefile = CURRENT_DIR . '/templates/default/'.$tpl.'admin-setuser.php';
 
-include(dirname(__FILE__) . '/templates/default/'.$tpl.'layout.php');
+include(CURRENT_DIR . '/templates/default/'.$tpl.'layout.php');
 
 ?>
