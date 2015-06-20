@@ -25,9 +25,9 @@ echo '
         <h1><a href="/topics/',$article['id'],'">',$article['title'],'</a></h1>
         <span class="item-date"><i class="fa fa-archive"></i> <a href="/nodes/',$article['cid'],'">',$article['cname'],'</a>';
 if($article['comments']){
-    echo '&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['ruid'],'">',$article['rauthor'],'</a>&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',$article['edittime'],'回复';
+    echo '&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['ruid'],'">',$article['rauthor'],'</a>&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',showtime($article['edittime']),'回复';
 }else{
-    echo '&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['uid'],'">',$article['author'],'</a>&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',$article['addtime'],'发表';
+    echo '&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['uid'],'">',$article['author'],'</a>&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',showtime($article['addtime']),'发表';
 }
 echo '        </span>
     </div>';
