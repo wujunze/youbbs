@@ -54,7 +54,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     if($seccode === intval($_SESSION['code'])){
                         $db_user = $DBS->fetch_one_array("SELECT * FROM yunbbs_users WHERE name='".$name."' LIMIT 1");
                         if($db_user){
-                            $pwmd5 = md5($pw);
+                            $pwmd5 = encode_password($pw, $db_user['regtime']);
                             if($pwmd5 == $db_user['password']){
                                 
                                 // G Auth Checking

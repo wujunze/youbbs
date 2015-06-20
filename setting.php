@@ -131,9 +131,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $password_again = addslashes(trim($_POST['password_again']));
         if($password_current && $password_new && $password_again){
             if($password_new == $password_again){
-                if(md5($password_current) == $cur_user['password']){
+                if(encode_password($password_current, $cur_user['regtime']) == $cur_user['password']){
                     if($password_current != $password_new){
-                        $new_md5pw = md5($password_new);
+                        $new_md5pw = encode_password($password_new, $cur_user['regtime']);
                         
                         if($DBS->unbuffered_query("UPDATE yunbbs_users SET password='$new_md5pw' WHERE id='$cur_uid'")){
                             //更新缓存和cookie

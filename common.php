@@ -315,4 +315,11 @@ function curl_file_get_contents($url){
     return $data;
 }
 
+// 密码加盐，可以自己修改这个函数
+function encode_password($pw, $salt){
+    $a = sha1($pw) . md5($salt);
+    $b = substr(md5($a), 8, 18);
+    return substr(md5($b), 6, 16);
+}
+
 ?>

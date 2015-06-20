@@ -137,7 +137,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $password_again = addslashes(trim($_POST['password_again']));
         if($password_new && $password_again){
             if($password_new == $password_again){
-                $new_md5pw = md5($password_new);
+                $db_user2 = $DBS->fetch_one_array("SELECT `regtime` FROM `yunbbs_users` WHERE `id`='$mid'");
+                $new_md5pw = encode_password($password_new, $db_user2['regtime']);
                 
                 if($DBS->unbuffered_query("UPDATE yunbbs_users SET password='$new_md5pw' WHERE id='$mid'")){
                     $tip3 = '密码已成功更改，请记住新密码';

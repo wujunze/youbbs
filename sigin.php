@@ -75,7 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     ////
     if(!$errors){
-        $pwmd5 = md5($pw);
+        $pwmd5 = encode_password($pw, $timestamp);
         
         if($options['register_review']){
             $flag = 1;
