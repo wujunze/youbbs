@@ -116,6 +116,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
         
         // tag end
+
+        $cache->clear('home_articledb');
         
         header('location: /topics/'.$tid);
         exit;
