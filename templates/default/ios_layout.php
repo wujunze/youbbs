@@ -83,10 +83,18 @@ echo '</span>
 </div>';
 }
 
-if($cid<1){
-	$cid=1;
-}
 if($cur_user && $cur_user['flag']>=5){
+
+    if(isset($cid)){
+        $post_in_cid = $cid;
+    }else{
+        if(isset($t_obj)){
+            $post_in_cid = $t_obj['cid'];
+        }else{
+            $post_in_cid = 2;
+        }
+    }
+
 echo '
     <div class="main-box main-box-node">
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -94,7 +102,7 @@ echo '
 				<tr>
 					<td width="50" valign="top"><a href="/user/',$cur_user['id'],'"><img src="/avatar/large/',$cur_user['avatar'],'.png" class="avatar" border="0" align="default" style="max-width: 30px; max-height: 30px;border-radius: 2px;"></a></td>
 					<td style="text-align: center;" width="auto" valign="top"><a href="/user/',$cur_user['id'],'" style="color:#333;text-decoration: none;font-size: 25px;">',$cur_user['name'],'</a></td>
-					<td style="text-align: right;" width="auto" align="left"><a href="/newpost/',$cid,'" rel="nofollow"><i class="fa fa-pencil-square-o" style="font-size: 26px;color: #333;"><span style="font-size: 15px;">创作新主题</span></i></a></td>
+					<td style="text-align: right;" width="auto" align="left"><a href="/newpost/',$post_in_cid,'" rel="nofollow"><i class="fa fa-pencil-square-o" style="font-size: 26px;color: #333;"><span style="font-size: 15px;">创作新主题</span></i></a></td>
 				</tr>
 			</tbody>
 		</table>

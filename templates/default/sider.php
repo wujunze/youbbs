@@ -4,7 +4,11 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 if(isset($cid)){
     $post_in_cid = $cid;
 }else{
-    $post_in_cid = 2;
+    if(isset($t_obj)){
+        $post_in_cid = $t_obj['cid'];
+    }else{
+        $post_in_cid = 2;
+    }
 }
 
 if(isset($site_infos)){
