@@ -31,7 +31,7 @@ if($article['comments']){
     if($gotopage == 1){
         $c_page = '';
     }else{
-        $c_page = '-'.$gotopage;
+        $c_page = '/'.$gotopage;
     }
     echo '<div class="item-count"><a href="/notic/',$article['id'],'">',$article['comments'],'</a></div>';
 }

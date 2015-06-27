@@ -38,34 +38,8 @@ if($url_path == 'login'){
 }
 echo '</p>
 </form>
-</div></div>';
-echo '<div class="main-sider">';
-		echo'<div class="sider-box">
-			<div class="sider-box-title"><i class="fa fa-life-ring"></i> 站务信息</div>
-			<div class="sider-box-content">';
-			if($options['register_review']){
-			echo'<span class="infoweb"><i class="fa fa-check-square-o"></i> 注册后需要管理员审核！ </span><br/>';
-			}
-			if($options['authorized']){
-			echo'<span class="infoweb"><i class="fa fa-lock"></i> 只有登录用户才能访问，请先登录！</span> <br/>';
-			}
-		echo'<div class="c"></div>
-			</div>
-		</div>';		
-		echo'
-		<div class="sider-box">
-			<div class="sider-box-title"><i class="fa fa-plus-square"></i> 第三方登录</div>
-			<div class="sider-box-content">';
-			if($options['wb_key'] && $options['wb_secret']){
-			echo'<span class="sliderlogin"><a href="/wblogin" rel="nofollow"><i class="fa fa-weibo"></i> 微博登陆</a></span>';
-			}
-			if($options['qq_appid'] && $options['qq_appkey']){
-			echo'<span class="sliderlogin"><a href="/qqlogin" rel="nofollow"><i class="fa fa-qq"></i> QQ登录</a></span>';
-			}
-			echo'<div class="c"></div>
-			</div>
-		</div>
-	  </div>';
+</div>';
+
 echo'
 <script>
 $(document).ready(function(){

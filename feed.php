@@ -5,7 +5,10 @@ define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 include(CURRENT_DIR . '/config.php');
 include(CURRENT_DIR . '/common.php');
 
-if($options['authorized'] || $options['close']){
+if($options['close']){
+    exit('error: 403 Access Denied');
+}
+if($options['authorized'] && (!$cur_user || $cur_user['flag']<5)){
     exit('error: 403 Access Denied');
 }
 

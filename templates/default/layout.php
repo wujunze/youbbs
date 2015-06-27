@@ -77,7 +77,8 @@ echo '       </div>
         <!-- main-content end -->
         <div class="main-sider">';
 
-include(dirname(__FILE__) . '/sider.php');
+include(CURRENT_DIR . '/templates/default/sider.php');
+
 echo '       </div>
         <!-- main-sider end -->
         <div class="c"></div>
