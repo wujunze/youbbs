@@ -5,7 +5,7 @@ foreach($errors as $error){
     echo '<div id="closes" class="errortipc"><i class="fa fa-info-circle"></i> ',$error,' <span id="close"><i class="fa fa-times"></i></span></div>';
 }
 echo '
-<div class="title"><i class="fa fa-angle-double-right"></i> ',$title,'</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> ',$title,'</div>
 <div class="main-box">
 <div id="svglogo"></div>
 <p class="red fs12" style="margin-left:68px;margin-bottom: 14px;">';

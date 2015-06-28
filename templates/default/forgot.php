@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title"><i class="fa fa-angle-double-right"></i> ',$title,'</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> ',$title,'</div>
 <div class="main-box">
 <p class="red" style="margin-left:60px;">';
 foreach($errors as $error){

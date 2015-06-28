@@ -3,7 +3,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 
 echo '
 <form action="',$_SERVER["REQUEST_URI"],'" method="post">
-<div class="title">
+<div class="nav-title">
     <i class="fa fa-angle-double-right"></i> 修改帖子 <i class="fa fa-angle-double-right"></i> 
     <select name="select_cid">';
 foreach($all_nodes as $n_id=>$n_name){

@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
         <i class="fa fa-angle-double-right"></i> ',$title;
 	if($cur_user['notic']){
             $notic_n = count(array_unique(explode(',', $cur_user['notic'])))-1;

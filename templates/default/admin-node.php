@@ -3,7 +3,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 
 echo '
 <a name="add"></a>
-<div class="title">
+<div class="nav-title">
     <i class="fa fa-angle-double-right"></i> 添加分类
 </div>
 
@@ -25,7 +25,7 @@ echo '
 
 echo '
 <a name="edit"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 修改分类</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 修改分类</div>
 
 <div class="main-box">';
 if($tip2){

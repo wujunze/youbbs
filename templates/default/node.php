@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
        <i class="fa fa-angle-double-right"></i> ',$c_obj['name'],'(',$c_obj['articles'],')';
         if($cur_user && $cur_user['flag']>=99){
             echo ' &nbsp;<i class="fa fa-pencil-square-o"></i> <a href="/admin-node-',$c_obj['id'],'#edit">编辑</a>';

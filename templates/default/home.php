@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
     <div class="float-left"><i class="fa fa-angle-double-right"></i> 最新发布的主题</div>
 	<div class="float-right"><i class="fa fa-rss"></i> <a href="/feed" target="_blank">RSS订阅</a></div>
 	<div class="c"></div>
@@ -20,12 +20,12 @@ if(!$is_spider){
 }
 echo '    </a></div>
     <div class="item-content">
-        <h1><a href="/topics/',$article['id'],'">',$article['title'],'</a></h1>
+        <h1><a rel="bookmark" href="/topics/',$article['id'],'">',$article['title'],'</a></h1>
         <span class="item-date"><i class="fa fa-archive"></i> <a href="/nodes/',$article['cid'],'">',$article['cname'],'</a>&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['uid'],'">',$article['author'],'</a>';
 if($article['comments']){
-    echo '&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',showtime($article['edittime']),'&nbsp;&nbsp;<i class="fa fa-user-secret"></i> 最后回复来自 <a href="/user/',$article['ruid'],'">',$article['rauthor'],'</a>';
+    echo '&nbsp;&nbsp;<i class="fa fa-clock-o"></i> <time datetime="',showtime2($article['edittime']),'" pubdate="pubdate" data-updated="true">',showtime($article['edittime']),'</time>&nbsp;&nbsp;<i class="fa fa-user-secret"></i> 最后回复来自 <a href="/user/',$article['ruid'],'">',$article['rauthor'],'</a>';
 }else{
-    echo '&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',showtime($article['addtime']);
+    echo '&nbsp;&nbsp;<i class="fa fa-clock-o"></i> <time datetime="',showtime2($article['addtime']),'" pubdate="pubdate" data-updated="true">',showtime($article['addtime']),'</time>';
 }
 echo '        </span>
     </div>';
@@ -56,7 +56,7 @@ echo '</div>';
 
 if(isset($bot_nodes)){
 echo '
-<div class="title">热门分类</div>
+<div class="nav-title">热门分类</div>
 <div class="main-box main-box-node">
 <span class="btn">';
 foreach( $bot_nodes as $k=>$v ){

@@ -3,7 +3,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 
 echo '
 <form action="',$_SERVER["REQUEST_URI"],'" method="post">
-<div class="title">
+<div class="nav-title">
     &raquo; - 修改帖子 &raquo;
     <select name="select_cid">
     ';
@@ -41,7 +41,11 @@ echo '
 <label><input type="checkbox" name="top" value="1" ',$t_obj['top'],'/> 首页置顶</label>&nbsp;&nbsp;
 <label><input type="checkbox" name="fop" value="1" ',$t_obj['fop'],'/> 版块置顶</label>&nbsp;&nbsp;
 <label><input type="checkbox" name="isred" value="1" ',$t_obj['isred'],'/> 推荐帖子</label>
-</p>
+</p>';
+if(!$options['close_upload']){
+    include(CURRENT_DIR . '/templates/default/upload.php');
+}
+echo '
 <p><input type="submit" value=" 保 存 " name="submit" class="textbtn" /></p>
 </form>
 

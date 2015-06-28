@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 echo '
 <a name="1"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 个人信息</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 个人信息</div>
 <div class="main-box">';
 
 if($tip1){
@@ -25,6 +25,10 @@ echo '
         <td width="auto" align="left"><input type="text" class="sl wb80" name="url" value="',htmlspecialchars(stripslashes($cur_user['url'])),'" /></td>
     </tr>
     <tr>
+        <td width="120" align="right">个人简介</td>
+        <td width="auto" align="left"><textarea class="ml wb80" name="about">',htmlspecialchars(stripslashes($cur_user['about'])),'</textarea></td>
+    </tr>
+    <tr>
         <td width="120" align="right"></td>
         <td width="auto" align="left"><input type="submit" value="保存设置" name="submit" class="textbtn" /></td>
     </tr>
@@ -38,7 +42,7 @@ if($cur_user['password']){
 
 echo '
 <a name="3"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 更改密码</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 更改密码</div>
 <div class="main-box">';
 if($tip3){
     echo '<div class="reedos"><i class="fa fa-info-circle"></i> ',$tip1,'</div>';
@@ -73,7 +77,7 @@ echo '
 }else{
 
 echo '<a name="3"></a>
-<div class="title">设置登录密码： 设置一个登录密码，以备急用</div>
+<div class="nav-title">设置登录密码： 设置一个登录密码，以备急用</div>
 <div class="main-box">';
 if($tip3){
     echo '<div class="reedos"><i class="fa fa-info-circle"></i> ',$tip1,'</div>';

@@ -3,7 +3,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 
 echo '
 <a name="1"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 个人信息</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 个人信息</div>
 <div class="main-box">
 <p class="red">',$tip1,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#1">
@@ -22,6 +22,10 @@ echo '
         <td width="auto" align="left"><input type="text" class="sl" name="url" value="',htmlspecialchars(stripslashes($cur_user['url'])),'" /></td>
     </tr>
     <tr>
+        <td width="120" align="right">个人简介</td>
+        <td width="auto" align="left"><textarea class="ml" name="about">',htmlspecialchars(stripslashes($cur_user['about'])),'</textarea></td>
+    </tr>
+    <tr>
         <td width="120" align="right"></td>
         <td width="auto" align="left"><input type="submit" value="保存设置" name="submit" class="textbtn" /></td>
     </tr>
@@ -32,7 +36,7 @@ echo '
 </div>
 
 <a name="2"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 设置头像</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 设置头像</div>
 <div class="main-box">
 <p class="red">',$tip2,'</p>
 <form action="',$_SERVER["REQUEST_URI"],'#2" enctype="multipart/form-data" method="post">
@@ -65,7 +69,7 @@ if($cur_user['password']){
 
 echo '
 <a name="3"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 更改密码</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 更改密码</div>
 <div class="main-box">
 <p class="red">',$tip3,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#3">
@@ -98,7 +102,7 @@ echo '
 
 echo '
 <a name="3"></a>
-<div class="title">设置登录密码： 你可以设置一个登录密码，以备急用</div>
+<div class="nav-title">设置登录密码： 你可以设置一个登录密码，以备急用</div>
 <div class="main-box">
 <p class="red">',$tip3,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#3">
@@ -140,7 +144,7 @@ if($cur_user['gauthsecret'] != Null){
 
 echo '
 <a name="4"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 关闭二次验证 </div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 关闭二次验证 </div>
 <div class="main-box">
 <p class="red">',$tip4,'</p>
 
@@ -173,7 +177,7 @@ $qrCodeUrl = $ga->createQRCode($options['name'], $secret);
 
 echo '
 <a name="4"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 设置二次验证 </div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 设置二次验证 </div>
 <div class="main-box">
 <p class="red">',$tip4,'</p>
 

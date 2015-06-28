@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
     <div class="float-left">
         <i class="fa fa-angle-double-right"></i> 最新发布的主题
     </div>';
@@ -22,12 +22,12 @@ echo '
     <img src="/avatar/normal/',$article['uavatar'],'.png" alt="',$article['author'],'" />
     </a></div>
     <div class="item-content count',$article['comments'],'">
-        <h1><a href="/topics/',$article['id'],'">',$article['title'],'</a></h1>
+        <h1><a rel="bookmark" href="/topics/',$article['id'],'">',$article['title'],'</a></h1>
         <span class="item-date"><i class="fa fa-archive"></i> <a href="/nodes/',$article['cid'],'">',$article['cname'],'</a>';
 if($article['comments']){
-    echo '&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['ruid'],'">',$article['rauthor'],'</a>&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',showtime($article['edittime']),'回复';
+    echo '&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['ruid'],'">',$article['rauthor'],'</a>&nbsp;&nbsp;<i class="fa fa-clock-o"></i> <time datetime="',showtime2($article['edittime']),'" pubdate="pubdate" data-updated="true">',showtime($article['edittime']),'</time>回复';
 }else{
-    echo '&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['uid'],'">',$article['author'],'</a>&nbsp;&nbsp;<i class="fa fa-clock-o"></i> ',showtime($article['addtime']),'发表';
+    echo '&nbsp;&nbsp;<i class="fa fa-user"></i> <a href="/user/',$article['uid'],'">',$article['author'],'</a>&nbsp;&nbsp;<i class="fa fa-clock-o"></i> <time datetime="',showtime2($article['addtime']),'" pubdate="pubdate" data-updated="true">',showtime($article['addtime']),'</time>发表';
 }
 echo '        </span>
     </div>';

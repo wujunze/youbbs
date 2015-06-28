@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
     <i class="fa fa-angle-double-right"></i> 会员：',$m_obj['name'],' 
 </div>
 
@@ -33,7 +33,7 @@ echo '<p>关于： <br/> ',htmlspecialchars($m_obj['about']),'</p>
 
 if($m_obj['articles']){
 echo '
-<div class="title">
+<div class="nav-title">
     ',$m_obj['name'],' 最近发表的帖子
 </div>
 

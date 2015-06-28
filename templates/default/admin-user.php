@@ -5,7 +5,7 @@ if($userdb || $userdb2){
 if($userdb){
 echo '
 <a name="1"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 最近等待审核的用户</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 最近等待审核的用户</div>
 
 <div class="main-box">';
 if($tip1){
@@ -24,7 +24,7 @@ echo '</ul>
 if($userdb2){
 echo '
 <a name="2"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 最近被禁用的用户</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 最近被禁用的用户</div>
 
 <div class="main-box">';
 if($tip2){
@@ -42,7 +42,7 @@ echo '</ul>
 
 }else{
 echo '
-<div class="title"><i class="fa fa-angle-double-right"></i> 用户管理</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 用户管理</div>
 
 <div class="main-box">
 

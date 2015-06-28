@@ -32,6 +32,11 @@ if($options['head_meta']){
 if(isset($canonical)){
     echo '<link rel="canonical" href="http://',$_SERVER['HTTP_HOST'],$canonical,'" />';
 }
+if(isset($t_obj)){
+    echo '<link rel="stylesheet" href="/static/highlight/github.css">
+<script src="/static/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>';
+}
 
 echo '
 </head>
@@ -84,7 +89,6 @@ echo '</span>
 }
 
 if($cur_user && $cur_user['flag']>=5){
-
     if(isset($cid)){
         $post_in_cid = $cid;
     }else{
@@ -112,7 +116,7 @@ echo '
 
 if($cur_user && $cur_user['flag']>=99){
 echo '
-<div class="title"><i class="fa fa-angle-double-right"></i> 管理员面板</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 管理员面板</div>
 <div class="main-box main-box-node">
 <div class="btn">
 <a href="/admin-node">分类管理</a><a href="/admin-setting">网站设置</a><a href="/admin-user-list">用户管理</a><a href="/admin-link-list">链接管理</a>
@@ -126,7 +130,7 @@ include($pagefile);
 
 if(isset($t_obj) && $t_obj['relative_tags']){
 echo '
-<div class="title"><i class="fa fa-angle-double-right"></i> 您可能感兴趣的标签</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 您可能感兴趣的标签</div>
 <div class="main-box main-box-node">
 <div class="btn">',$t_obj['relative_tags'],'
 <div class="c"></div>
@@ -137,7 +141,7 @@ echo '
 
 if(isset($newest_nodes) && $newest_nodes){
 echo '
-<div class="title"><i class="fa fa-angle-double-right"></i> 最近添加的节点</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 最近添加的节点</div>
 <div class="main-box main-box-node">
 <div class="btn">';
 foreach( $newest_nodes as $k=>$v ){
@@ -153,7 +157,7 @@ echo '
 
 if(isset($bot_nodes)){
 echo '
-<div class="title"><i class="fa fa-angle-double-right"></i> 热门节点</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 热门节点</div>
 <div class="main-box main-box-node">
 <div class="btn">';
 foreach( $bot_nodes as $k=>$v ){

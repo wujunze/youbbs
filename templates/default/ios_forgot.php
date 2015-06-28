@@ -5,7 +5,7 @@ foreach($errors as $error){
     echo '<div id="closes" class="errortipc"><i class="fa fa-info-circle"></i> ',$error,' <span id="close"><i class="fa fa-times"></i></span></div>';
 }
 echo '
-<div class="title"><i class="fa fa-angle-double-right"></i> 取回密码</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 取回密码</div>
 <div class="main-box">
 <p class="red fs12" style="margin-left:60px;"><i class="fa fa-bullhorn"></i> 请填写注册时提供的邮箱地址<br/>';
 

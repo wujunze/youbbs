@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
     <a href="/">',$options['name'],'</a> &raquo; - 修改评论';
 echo '
 </div>
@@ -17,7 +17,7 @@ echo '
 <p><textarea id="id-content" name="content" class="comment-text mll">',$r_content,'</textarea></p>';
 
 if(!$options['close_upload']){
-    include(dirname(__FILE__) . '/upload.php');
+    include(CURRENT_DIR . '/templates/default/upload.php');
 }
 
 echo '

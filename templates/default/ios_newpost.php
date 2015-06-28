@@ -4,7 +4,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 echo '
 <form action="',$_SERVER["REQUEST_URI"],'" method="post">
 <input type="hidden" name="formhash" value="',$formhash,'" />
-<div class="title"><i class="fa fa-angle-double-right"></i> 创作新主题</div>
+<div class="nav-title"><i class="fa fa-angle-double-right"></i> 创作新主题</div>
 <div class="main-box">';
 if($tip){
     echo '<div id="closes" class="redbox"><i class="fa fa-info-circle"></i> ',$tip,'<span id="close"><i class="fa fa-times"></i></span></div>';

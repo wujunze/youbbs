@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
     <i class="fa fa-angle-double-right"></i> <a href="/nodes/',$c_obj['id'],'">',$c_obj['name'],'</a> (',$c_obj['articles'],')
 	<div class="c"></div>
 </div>
@@ -12,7 +12,7 @@ echo '
     <div class="topic-title-main float-left">
         <h1>',$t_obj['title'],'</h1>
         <div class="topic-title-date">
-        <i class="fa fa-user"></i> <a href="/user/',$t_obj['uid'],'">',$t_obj['author'],'</a>&nbsp;&nbsp;<i class="fa fa-calendar"></i> ',$t_obj['addtime'],'&nbsp;&nbsp;<i class="fa fa-eye"></i> ',$t_obj['views'],'阅读';
+        <i class="fa fa-user"></i> <a href="/user/',$t_obj['uid'],'">',$t_obj['author'],'</a>&nbsp;&nbsp;<i class="fa fa-calendar"></i> <time datetime="',showtime2($t_obj['edittime']),'" pubdate="pubdate" data-updated="true">',showtime($t_obj['addtime']),'</time>&nbsp;&nbsp;<i class="fa fa-eye"></i> ',$t_obj['views'],'阅读';
 if($cur_user && $cur_user['flag']>4){
     if(!$t_obj['closecomment']){
         echo '&nbsp;&nbsp;<i class="fa fa-comments"></i> <a href="#new-comment">回复</a>';
@@ -72,8 +72,8 @@ echo'&nbsp;&nbsp; <span class="right"><i class="fa fa-eye"></i> ',$t_obj['views'
 
 if($t_obj['comments']){
 echo '
-<div class="title">
-    ',$t_obj['comments'],' 回复  |  直到 ',$t_obj['edittime'],'
+<div class="nav-title">
+    ',$t_obj['comments'],' 回复  |  直到 ',showtime2($t_obj['edittime']),'
 </div>
 <div class="main-box home-box-list">';
 
@@ -152,7 +152,7 @@ if($cur_user && $cur_user['flag']>4){
 echo '
 
 <a name="new-comment"></a>
-<div class="title">
+<div class="nav-title">
     <div class="float-left">添加一条新回复</div>
     <div class="float-right"><a href="#"><i class="fa fa-chevron-up"></i> 回到顶部</a></div>
     <div class="c"></div>    
@@ -164,11 +164,11 @@ if($tip){
 echo '    <form action="',$_SERVER["REQUEST_URI"],'#new-comment" method="post">
 <input type="hidden" name="formhash" value="',$formhash,'" />
     <p><textarea id="id-content" name="content" class="comment-text mll">',htmlspecialchars($c_content),'</textarea></p>';
-/*
+
 if(!$options['close_upload']){
-    include(CURRENT_DIR . '/templates/default/upload.php');  //回复最好不要上传附件
+    include(CURRENT_DIR . '/templates/default/upload.php');
 }
-*/
+
 echo '
     <p>
     <div class="float-right"><input type="submit" value=" 回 复 " name="submit" class="textbtn" /></div>

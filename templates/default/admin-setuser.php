@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 echo '
 <a name="4"></a>
-<div class="title">设置用户权限 <span class="red">',$m_obj['name'],'</span></div>
+<div class="nav-title">设置用户权限 <span class="red">',$m_obj['name'],'</span></div>
 <div class="main-box">
 <p class="red">',$tip4,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#4">
@@ -33,7 +33,7 @@ echo '
 </div>
 
 <a name="1"></a>
-<div class="title">',$title,' <span class="red">',$m_obj['name'],'</span></div>
+<div class="nav-title">',$title,' <span class="red">',$m_obj['name'],'</span></div>
 <div class="main-box">
 <p class="red">',$tip1,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#1">
@@ -49,6 +49,10 @@ echo '
         <td width="auto" align="left"><input type="text" class="sl" name="url" value="',htmlspecialchars(stripslashes($m_obj['url'])),'" /></td>
     </tr>
     <tr>
+        <td width="120" align="right">个人简介</td>
+        <td width="auto" align="left"><textarea class="ml" name="about">',htmlspecialchars(stripslashes($m_obj['about'])),'</textarea></td>
+    </tr>
+    <tr>
         <td width="120" align="right"></td>
         <td width="auto" align="left"><input type="submit" value="保存设置" name="submit" class="textbtn" /></td>
     </tr>
@@ -59,7 +63,7 @@ echo '
 </div>
 
 <a name="2"></a>
-<div class="title">为<span class="red">',$m_obj['name'],'</span>设置头像</div>
+<div class="nav-title">为<span class="red">',$m_obj['name'],'</span>设置头像</div>
 <div class="main-box">
 <p class="red">',$tip2,'</p>
 <form action="',$_SERVER["REQUEST_URI"],'#2" enctype="multipart/form-data" method="post">
@@ -89,7 +93,7 @@ echo '
 </div>
 
 <a name="3"></a>
-<div class="title">为<span class="red">',$m_obj['name'],'</span>重设密码</div>
+<div class="nav-title">为<span class="red">',$m_obj['name'],'</span>重设密码</div>
 <div class="main-box">
 <p class="red">',$tip3,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#3">
@@ -115,7 +119,7 @@ echo '
 </div>
 
 <a name="5"></a>
-<div class="title">为<span class="red">',$m_obj['name'],'</span>取消二次验证</div>
+<div class="nav-title">为<span class="red">',$m_obj['name'],'</span>取消二次验证</div>
 <div class="main-box">
 <p class="red">',$tip5,'</p>
 <form method="post" action="',$_SERVER["REQUEST_URI"],'#5">

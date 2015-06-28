@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
         <i class="fa fa-angle-double-right"></i> <a href="/nodes/',$c_obj['id'],'">',$c_obj['name'],'</a> (',$c_obj['articles'],')';
 	if($cur_user['notic']){
             $notic_n = count(array_unique(explode(',', $cur_user['notic'])))-1;
@@ -16,7 +16,7 @@ echo '    <div class="c"></div>
     <div class="topic-title-main float-left">
         <h1>',$t_obj['title'],'</h1>
         <div class="topic-title-date">
-        <i class="fa fa-clock-o"></i>',$t_obj['addtime'],'&nbsp;&nbsp;<i class="fa fa-eye"></i>',$t_obj['views'],'阅读';
+        <i class="fa fa-clock-o"></i><time datetime="',showtime2($t_obj['edittime']),'" pubdate="pubdate" data-updated="true">',showtime($t_obj['addtime']),'</time>&nbsp;&nbsp;<i class="fa fa-eye"></i>',$t_obj['views'],'阅读';
 if($t_obj['favorites']){
     echo '&nbsp;&nbsp;<i class="fa fa-star"></i>',$t_obj['favorites'],'收藏';
 }
@@ -59,8 +59,8 @@ echo '</div>
 
 if($t_obj['comments']){
 echo '
-<div class="title">
-    ',$t_obj['comments'],' 回复  |  直到 ',$t_obj['edittime'],'
+<div class="nav-title">
+    ',$t_obj['comments'],' 回复  |  直到 ',showtime2($t_obj['edittime']),'
 </div>
 <div class="main-box home-box-list">';
 
@@ -130,7 +130,7 @@ if($t_obj['closecomment']){
 if($cur_user && $cur_user['flag']>4){
 
 echo '<a name="new-comment"></a>
-<div class="title">
+<div class="nav-title">
     <div class="float-left">添加一条新回复</div>
     <div class="float-right"><a href="#"><a href="#"><i class="fa fa-chevron-up"></i> 回到顶部</a></div>
     <div class="c"></div>    
@@ -141,7 +141,13 @@ if($tip){
 }
 echo '    <form action="',$_SERVER["REQUEST_URI"],'#new-comment" method="post">
 <input type="hidden" name="formhash" value="',$formhash,'" />
-    <p><textarea id="id-content" name="content" class="comment-text mll wb92">',htmlspecialchars($c_content),'</textarea></p>
+    <p><textarea id="id-content" name="content" class="comment-text mll wb92">',htmlspecialchars($c_content),'</textarea></p>';
+
+if(!$options['close_upload']){
+    include(CURRENT_DIR . '/templates/default/upload.php');
+}
+
+echo '
     <p><input type="submit" value=" 提 交 " name="submit" class="textbtn wb100" /></p>
     <p class="fs12 grey">请尽量让自己的回复能够对别人有帮助</p>
     </form>

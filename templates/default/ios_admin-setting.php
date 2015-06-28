@@ -3,7 +3,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 
 echo '
 <a name="1"></a>
-<div class="title">
+<div class="nav-title">
     <a href="/">',$options['name'],'</a> &raquo; - '.$title,'
 </div>
 
@@ -269,7 +269,7 @@ echo '
 
 echo '
 <a name="2"></a>
-<div class="title">清空缓存</div>
+<div class="nav-title">清空缓存</div>
 
 <div class="main-box">';
 if($tip2){
@@ -287,7 +287,7 @@ echo '
 
 echo '
 <a name="3"></a>
-<div class="title">清除所有数据并重新安装</div>
+<div class="nav-title">清除所有数据并重新安装</div>
 
 <div class="main-box">';
 if($tip3){

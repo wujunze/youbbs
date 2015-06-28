@@ -3,7 +3,7 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 
 echo '
 <a name="add"></a>
-<div class="title">
+<div class="nav-title">
     <a href="/">',$options['name'],'</a> &raquo; - 添加链接
 </div>
 
@@ -25,7 +25,7 @@ echo '
 if($l_obj){
 echo '
 <a name="edit"></a>
-<div class="title">修改链接</div>
+<div class="nav-title">修改链接</div>
 
 <div class="main-box">';
 if($tip2){
@@ -47,7 +47,7 @@ echo '
 if($linkdb){
 echo '
 <a name="list"></a>
-<div class="title">链接列表</div>
+<div class="nav-title">链接列表</div>
 
 <div class="main-box">';
 echo '

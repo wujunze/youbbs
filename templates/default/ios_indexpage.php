@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
     <div class="float-left">
         <i class="fa fa-angle-double-right"></i> 第',$page,'页 / 共',$taltol_page,'页
     </div>';

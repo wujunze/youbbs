@@ -36,6 +36,11 @@ if($options['head_meta']){
 if(isset($canonical)){
     echo '<link rel="canonical" href="http://',$_SERVER['HTTP_HOST'],$canonical,'" />';
 }
+if(isset($t_obj)){
+    echo '<link rel="stylesheet" href="/static/highlight/github.css">
+<script src="/static/highlight/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>';
+}
 
 echo '
 </head>
@@ -44,6 +49,22 @@ echo '
 <div class="header-wrap">
     <div class="header">
         <div class="logo"><a href="/" name="top">',htmlspecialchars($options['name']),'</a></div>
+        <div class="scbox">
+			<script type="text/javascript">
+				var dispatch = function() {
+					q = document.getElementById("q");
+					if (q.value != "" && q.value != "站内搜索") {
+						window.open(\'http://cn.bing.com/search?q=site:',$_SERVER['HTTP_HOST'],'%20\' + q.value, "_blank");
+						return false;
+					} else {
+						return false;
+					}
+				}
+			</script>
+			<form role="search" method="get" id="searchform" onsubmit="return dispatch()" target="_blank">
+				<input class="search-input" type="text" maxlength="30" this.value=\'\';" name="q" id="q"><i class="fa fa-search"></i>
+			</form>
+		</div>
         <div class="banner">';
         
 if($cur_user){ 
@@ -92,8 +113,8 @@ echo '
     <div class="footer">
 	<div class="sep10"></div>
 	<div class="sep10"></div>
-	<i class="fa fa-asterisk fa-spin"></i> Proudly Powered by <a href="http://youbbs.sinaapp.com/" target="_blank"><b>YouBBS</b></a><div class="sep5"></div>
-	<i class="fa fa-heart"></i> Lovingly made by <a href="http://www.eoen.org/" target="_blank"><b>EOEN</b></a><div class="footericp">';
+	<i class="fa fa-asterisk fa-spin"></i> Proudly Powered by <a href="http://youbbs.sinaapp.com/" target="_blank">YouBBS</a><div class="sep5"></div>
+	<i class="fa fa-heart"></i> Lovingly made by <a href="http://www.eoen.org/" target="_blank">EOEN</a><div class="footericp">';
 if($options['icp']){
     echo '<div class="sep5"></div><i class="fa fa-university"></i> <a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">',$options['icp'],'</a>';
 }

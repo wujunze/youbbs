@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title"><a href="/">',$options['name'],'</a> &raquo; ',$title,'</div>
+<div class="nav-title"><a href="/">',$options['name'],'</a> &raquo; ',$title,'</div>
 <div class="main-box">';
 
 if($options['close_register'] || $options['close']){

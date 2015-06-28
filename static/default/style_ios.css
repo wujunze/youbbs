@@ -134,7 +134,7 @@ a
     font-size: 11px;
 }
 
-.title .float-left
+.nav-title .float-left
 {
     font-size: 12px;
 }
@@ -367,7 +367,7 @@ img.avatar
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
-.title
+.nav-title
 {
     border-bottom: 1px solid #E2E2E2;
     padding: 6px;
@@ -384,7 +384,7 @@ img.avatar
     float: right;
 }
 
-.title a
+.nav-title a
 {
     color: #778;
 }

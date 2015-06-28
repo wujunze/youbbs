@@ -2,7 +2,7 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<div class="title">
+<div class="nav-title">
     <i class="fa fa-angle-double-right"></i> 站内提醒（ 有人在下面的文章或回复提起了你 ）
 </div>
 
