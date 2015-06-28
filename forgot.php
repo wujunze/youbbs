@@ -11,7 +11,7 @@ if($cur_user && $cur_user['flag'] == 0){
 }
 
 //
-
+$name = '';
 $errors = array();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $name = addslashes(trim($_POST["name"]));

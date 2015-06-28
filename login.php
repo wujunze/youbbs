@@ -32,6 +32,7 @@ if($cur_user){
     $cur_uid = '';
 }
 
+$name = '';
 $errors = array();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     //if(empty($_SERVER['HTTP_REFERER']) || $_POST['formhash'] != formhash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])) {
