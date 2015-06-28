@@ -195,7 +195,7 @@ echo '    </div>
 </div>';
 }
 
-if(isset($t_obj) && $t_obj['relative_tags']){
+if(isset($t_obj) && isset($t_obj['relative_tags'])){
 echo '
 <div class="sider-box">
     <div class="sider-box-title"><i class="fa fa-angle-double-right"></i> 您可能感兴趣的标签</div>
