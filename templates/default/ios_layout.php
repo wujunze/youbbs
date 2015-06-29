@@ -34,7 +34,7 @@ if(isset($canonical)){
 }
 if(isset($t_obj)){
     echo '<link rel="stylesheet" href="/static/highlight/github.css">
-<script src="/static/js/highlight.min.js"></script>
+<script src="/static/highlight/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>';
 }
 
