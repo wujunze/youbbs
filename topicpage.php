@@ -291,7 +291,7 @@ if($t_obj['tags']){
 // 页面变量
 $title = $t_obj['title'].'- ' . $options['name'];
 $newest_nodes = get_newest_nodes();
-$links = get_links();
+//$links = get_links();
 $meta_kws = $tags_raw;
 $meta_des = $c_obj['name'].' - '.$t_obj['author'].' - '.htmlspecialchars(mb_substr($t_obj['content'], 0, 150, 'utf-8'));
 // 设置回复图片最大宽度
