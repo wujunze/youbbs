@@ -59,7 +59,7 @@ if(count($newest_nodes)==$options['newest_node_num']){
 }
 
 $show_sider_ad = "1";
-$links = get_links();
+//$links = get_links();
 $meta_kws = htmlspecialchars(mb_substr($options['name'], 0, 6, 'utf-8'));
 if($options['site_des']){
     $meta_des = htmlspecialchars(mb_substr($options['site_des'], 0, 150, 'utf-8')).' - page '.$page;
