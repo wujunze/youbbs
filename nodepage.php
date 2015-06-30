@@ -63,7 +63,7 @@ $DBS->free_result($query);
 // 页面变量
 $title = $c_obj['name'];
 $newest_nodes = get_newest_nodes();
-$links = get_links();
+//$links = get_links();
 $meta_kws = $c_obj['name'];
 $meta_des = $c_obj['name'].' - '.htmlspecialchars(mb_substr($c_obj['about'], 0, 150, 'utf-8')).' - page '.$page;
 
