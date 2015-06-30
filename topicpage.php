@@ -40,8 +40,8 @@ if($t_obj){
         $t_obj['closecomment'] = 1;//水区禁止评论
     }
 */
-$t_obj['addtime'] = showtime($t_obj['addtime']);
-$t_obj['edittime'] = showtime($t_obj['edittime']);
+//$t_obj['addtime'] = showtime($t_obj['addtime']);
+//$t_obj['edittime'] = showtime($t_obj['edittime']);
 if($is_spider || $tpl){
     // 手机浏览和搜索引擎访问不用 jquery.lazyload
     $t_obj['content'] = set_content($t_obj['content'], 1);
