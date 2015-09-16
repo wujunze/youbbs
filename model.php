@@ -11,12 +11,12 @@ while($setting = $DBS->fetch_array($query)) {
 }
 
 // 检测新增的 site_create
-if( !$options['site_create']){
+if($options['site_create']=='0'){
     $query = "SELECT regtime FROM yunbbs_users WHERE id='1'";
     $m_obj = $DBS->fetch_one_array($query);
     if($m_obj){
         $site_create = $m_obj['regtime'];
-        //$DBS->query("INSERT INTO yunbbs_settings VALUES('site_create', '$site_create')");
+        $DBS->query("UPDATE `yunbbs_settings` SET `value` = '$site_create' WHERE `title` = 'site_create' LIMIT 1");
         $options['site_create'] = $site_create;
     }
 }
