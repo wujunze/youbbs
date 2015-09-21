@@ -13,10 +13,9 @@ if ($cur_user['flag']==0){
     exit('error: 401 该帐户还在审核中');
 }
 
-
-$act = $_GET['act'];
-$tid = $_GET['id'];
-$page = intval($_GET['page']);
+$act = isset($_GET['act']) ? $_GET['act'] : '';
+$tid = isset($_GET['id']) ? intval($_GET['id']) : '0';
+$page = isset($_GET['page']) ? intval($_GET['page']) : '1';
 
 // 获取收藏数据
 $user_fav = $DBS->fetch_one_array("SELECT * FROM yunbbs_favorites WHERE uid='".$cur_uid."'");
