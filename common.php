@@ -36,6 +36,7 @@ function stripslashes_array(&$array) {
     return $array;
 }
 
+/*
 @set_magic_quotes_runtime(0);
 // 判断 magic_quotes_gpc 状态
 if (@get_magic_quotes_gpc()) {
@@ -43,6 +44,10 @@ if (@get_magic_quotes_gpc()) {
     $_POST = stripslashes_array($_POST);
     $_COOKIE = stripslashes_array($_COOKIE);
 }
+*/
+$_GET = stripslashes_array($_GET);
+$_POST = stripslashes_array($_POST);
+$_COOKIE = stripslashes_array($_COOKIE);
 
 // 获取当前用户
 $cur_user = null;
