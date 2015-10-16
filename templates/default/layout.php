@@ -54,7 +54,7 @@ echo '
 				var dispatch = function() {
 					q = document.getElementById("q");
 					if (q.value != "" && q.value != "站内搜索") {
-						window.open(\'http://cn.bing.com/search?q=site:',$_SERVER['HTTP_HOST'],'%20\' + q.value, "_blank");
+						window.open(\'https://igogo.me/search?q=site:',$_SERVER['HTTP_HOST'],'%20\' + q.value, "_blank");
 						return false;
 					} else {
 						return false;
