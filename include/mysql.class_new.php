@@ -77,7 +77,7 @@ class DB_MySQL  {
     }
 
     function free_result($query) {
-        $query = mysqli_free_result($query);
+        //$query = mysqli_free_result($query);
         return $query;
     }
 
