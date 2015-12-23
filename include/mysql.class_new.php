@@ -31,7 +31,7 @@ class DB_MySQL  {
         return ($id = mysqli_insert_id($this->link)) >= 0 ? $id : $this->result($this->query("SELECT last_insert_id()"), 0);
     }
 
-    function fetch_array($query, $result_type = MYSQL_ASSOC) {
+    function fetch_array($query, $result_type = MYSQLI_ASSOC) {
         return mysqli_fetch_array($query, $result_type);
     }
 
